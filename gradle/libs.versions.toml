@@ -1,0 +1,25 @@
+[versions]
+junit = "4.13.2"
+kotlin = "2.2.20"
+kotlin-wrap = "2025.10.2"
+
+openrndr = "0.5.0-SNAPSHOT"
+orx = "0.5.0-SNAPSHOT"
+
+[libraries]
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlin-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+junit = { module = "junit:junit", version.ref = "junit" }
+kotlin-browser = { group = "org.jetbrains.kotlin-wrappers", name = "kotlin-browser", version.ref = "kotlin-wrap"}
+kotlin-js = { group = "org.jetbrains.kotlin-wrappers", name = "kotlin-js", version.ref = "kotlin-wrap"}
+kotlin-web = { group = "org.jetbrains.kotlin-wrappers", name = "kotlin-web", version.ref = "kotlin-wrap"}
+
+openrndr-application = { group = "org.openrndr", name = "openrndr-application", version.ref = "openrndr" }
+openrndr-dds = { group = "org.openrndr", name = "openrndr-dds", version.ref = "openrndr" }
+openrndr-draw = { group = "org.openrndr", name = "openrndr-draw", version.ref = "openrndr" }
+openrndr-webgl = { group = "org.openrndr", name = "openrndr-webgl", version.ref = "openrndr" }
+
+
+[plugins]
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

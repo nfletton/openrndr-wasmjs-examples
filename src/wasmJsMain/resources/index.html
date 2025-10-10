@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OPENRNDR</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    <link rel="stylesheet" href="main.css">
+    <script src="main.js"></script>
+</head>
+<body>
+<header class="topbar" role="banner">
+    <div class="topbar-info" aria-label="Resource links">
+        <button type="button" disabled>Code</button>
+        <button type="button" disabled>Documentation</button>
+    </div>
+    <div class="topbar-actions" role="toolbar" aria-label="Navigation controls">
+        <button id="toggleSidebar" type="button" aria-label="Toggle sidebar" title="Toggle sidebar"
+                aria-pressed="false">
+            ☰
+        </button>
+        <button id="navPrev" type="button" aria-label="Previous item" title="Previous">
+            ◀
+        </button>
+        <button id="navNext" type="button" aria-label="Next item" title="Next">
+            ▶
+        </button>
+    </div>
+</header>
+
+<div class="split" role="application"
+     aria-label="Split view with resizable navigation and content pane">
+    <nav class="nav" aria-label="Pages navigation" tabindex="0">
+        <p class="hint">Drag the bottom-right handle of this panel to resize horizontally.</p>
+        <div class="groups" role="tree">
+            <details class="group" role="treeitem" aria-expanded="false">
+                <summary>Internal Pages</summary>
+                <ul role="group">
+                    <li><a href="?id=0">100</a></li>
+                    <li><a href="?id=1">200</a></li>
+                    <li><a href="?id=2">200</a></li>
+                    <li><a href="?id=3">200</a></li>
+                    <li><a href="?id=4">200</a></li>
+                    <li><a href="?id=5">200</a></li>
+                </ul>
+            </details>
+            <details class="group" role="treeitem" aria-expanded="false">
+                <summary>External</summary>
+                <ul role="group">
+                    <li><a href="?id=6">200</a></li>
+                    <li><a href="?id=7">3</a></li>
+                    <li><a href="?id=8">4</a></li>
+                    <li><a href="?id=9">4</a></li>
+                    <li><a href="?id=10">4</a></li>
+                    <li><a href="?id=11">4</a></li>
+                </ul>
+            </details>
+        </div>
+    </nav>
+
+    <main class="content" aria-label="Content area">
+        <canvas id="openrndr-canvas" aria-label="Interactive canvas"></canvas>
+    </main>
+</div>
+
+<footer class="statusbar" role="status" aria-live="polite">
+    <div class="panel" id="status-left">Ready.</div>
+    <div class="panel" id="status-center">No selection.</div>
+    <div class="panel" id="status-right">Canvas idle.</div>
+</footer>
+
+<script>
+    let demo;
+</script>
+<script src="wasmjsExamples.js"></script>
+</body>
+</html>
