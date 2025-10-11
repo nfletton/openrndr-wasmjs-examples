@@ -1,7 +1,7 @@
 [versions]
 junit = "4.13.2"
 kotlin = "2.2.20"
-kotlin-wrap = "2025.10.2"
+kotlin-wrap = "2025.10.5"
 
 openrndr = "0.5.0-SNAPSHOT"
 orx = "0.5.0-SNAPSHOT"

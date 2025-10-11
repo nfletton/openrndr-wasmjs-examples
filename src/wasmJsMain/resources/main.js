@@ -1,4 +1,7 @@
+import {getNavigation} from './wasmjsExamples.mjs';
 (() => {
+
+
     let nav;
     let groups;
     let links;
@@ -70,8 +73,11 @@
     }
 
     function init() {
-        // Cache DOM references now that the DOM is ready
         nav = document.querySelector('.nav');
+        let x =getNavigation()
+        nav.appendChild(x)
+        // Cache DOM references now that the DOM is ready
+
         groups = Array.from(nav.querySelectorAll('details.group'));
         links = Array.from(nav.querySelectorAll('a[href]'));
         btnPrev = document.getElementById('navPrev');
