@@ -33,10 +33,11 @@ const val EXAMPLES_ROOT =
 const val GUIDE_ROOT = "https://guide.openrndr.org/"
 
 data class SketchDetails(
-    val name: String,
+    val navEntry: String,
+    val title: String,
     val source: () -> Unit,
     val pkg: DemoPackage,
-    val guidePage: String,
+    val docLink: String,
     val status: SketchStatus,
     val knownIssues: List<String> = listOf()
 ) {
@@ -44,13 +45,11 @@ data class SketchDetails(
         get() = "$EXAMPLES_ROOT/${pkg.toString().lowercase()}/${
             source.toString().substringAfter("::")
         }.kt"
-
-    val guideLink: String
-        get() = "$GUIDE_ROOT/$guidePage"
 }
 
 val sketches = listOf(
     SketchDetails(
+        "Drawing Basics",
         "Drawing circles, rectangles and lines",
         ::basicDrawerDemo,
         DemoPackage.OPENRNDR,
@@ -59,6 +58,7 @@ val sketches = listOf(
     ),
     SketchDetails(
         "Color Basics",
+        "Core color functionality",
         ::colorDemo,
         DemoPackage.OPENRNDR,
         "drawing/color.html",

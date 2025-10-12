@@ -5,10 +5,12 @@ import web.cssom.ClassName
 import web.dom.document
 import web.events.EventHandler
 import web.html.*
+import web.storage.sessionStorage
+import web.window.window
 
 @OptIn(ExperimentalWasmJsInterop::class, ExperimentalJsExport::class)
 @JsExport
-fun getNavigation(): HTMLDivElement {
+fun getNavigationLinks(): HTMLDivElement {
     val nav = document.createElement("div") as HTMLDivElement
     nav.className = ClassName("groups")
     nav.role = "tree"
@@ -28,13 +30,14 @@ fun getNavigation(): HTMLDivElement {
             val link = document.createElement("a") as HTMLAnchorElement
             link.href = "#"
             link.onclick = EventHandler { event ->
-                console.log("clicked on ${sketch.name}")
-                // Set a cookie "selectedSketch" with the sketch name for 7 days
-                val maxAgeSeconds = 7 * 24 * 60 * 60
-                document.cookie = "selectedSketch=${sketch.source}; path=/; max-age=$maxAgeSeconds; samesite=Strict"
+                console.log("clicked on ${sketch.navEntry}")
+                sessionStorage.setItem("sketch", "${sketch.source}")
+                sessionStorage.setItem("sidebar", "${sketch.source}")
+                sessionStorage.setItem("codeLink", "${sketch.codeLink}")
+                sessionStorage.setItem("docLink", "${sketch.docLink}")
                 document.location.reload()
             }
-            link.textContent = sketch.name
+            link.textContent = sketch.navEntry
             li.appendChild(link)
             ul.appendChild(li)
         }

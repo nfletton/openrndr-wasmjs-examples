@@ -1,4 +1,4 @@
-import {getNavigation} from './wasmjsExamples.mjs';
+import {getNavigationLinks} from './wasmjsExamples.mjs';
 (() => {
 
 
@@ -74,7 +74,7 @@ import {getNavigation} from './wasmjsExamples.mjs';
 
     function init() {
         nav = document.querySelector('.nav');
-        let x =getNavigation()
+        let x =getNavigationLinks()
         nav.appendChild(x)
         // Cache DOM references now that the DOM is ready
 
