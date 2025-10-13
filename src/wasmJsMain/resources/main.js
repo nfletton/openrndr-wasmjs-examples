@@ -1,8 +1,6 @@
-import {getSketchData, getNavigationLinks} from './wasmjsExamples.mjs';
+import {getSketchData} from './wasmjsExamples.mjs';
 
 (() => {
-
-
     let nav;
     let links;
     let activeLink = null;
@@ -62,20 +60,70 @@ import {getSketchData, getNavigationLinks} from './wasmjsExamples.mjs';
         };
     }
 
+    function getNavigationLinks(sketchData) {
+        const nav = document.createElement('div');
+        nav.className = 'groups';
+        nav.setAttribute('role', 'tree');
+
+        Object.keys(sketchData).forEach(groupName => {
+            let groupData = sketchData[groupName];
+            const details = document.createElement('details');
+            details.className = 'group';
+            details.setAttribute('role', 'treeitem');
+            details.open = false;
+            details.setAttribute('aria-expanded', 'false');
+
+            const summary = document.createElement('summary');
+            summary.textContent = groupName;
+            details.appendChild(summary);
+
+            const ul = document.createElement('ul');
+            ul.id = groupName;
+            ul.setAttribute('role', 'group');
+
+            groupData.forEach((sketch) => {
+                const li = document.createElement('li');
+                const link = document.createElement('a');
+                link.href = '#';
+                link.id = sketch["funcId"];
+                link.textContent = sketch["navTitle"];
+
+                link.onclick = (event) => {
+                    console.log(`clicked on ${sketch["navTitle"]}`);
+                    sessionStorage.setItem('funcId', sketch["funcId"]);
+                    sessionStorage.setItem('sidebar', 'todo');
+                    sessionStorage.setItem('codeLink', sketch["codeLink"]);
+                    sessionStorage.setItem('docLink', sketch["docLink"]);
+                    document.location.reload();
+                };
+
+                li.appendChild(link);
+                ul.appendChild(li);
+            });
+
+            details.appendChild(ul);
+            nav.appendChild(details);
+
+        });
+
+        return nav;
+    }
+
     function init() {
-        let data = getSketchData()
+        let sketchJson = getSketchData()
+
+        const sketchData = JSON.parse(sketchJson)
 
         nav = document.querySelector('.nav');
-        nav.appendChild(getNavigationLinks())
+        nav.appendChild(getNavigationLinks(sketchData))
 
-        // groups = Array.from(nav.querySelectorAll('details.group'));
         links = Array.from(nav.querySelectorAll('a[href]'));
 
         btnPrev = document.getElementById('navPrev');
         btnNext = document.getElementById('navNext');
         btnToggle = document.getElementById('toggleSidebar');
 
-        let activeNavId = sessionStorage.getItem('activeNav');
+        let activeNavId = sessionStorage.getItem('funcId');
 
         if (activeNavId) activeLink = setActiveNavItem(activeNavId);
 

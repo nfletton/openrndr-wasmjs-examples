@@ -27,10 +27,9 @@ private const val GUIDE_ROOT = "https://guide.openrndr.org/"
 
 @Serializable
 data class SketchDto(
-    val funcName: String,
+    val funcId: String,
     val navTitle: String,
     val title: String,
-    val group: String,
     val docLink: String,
     val knownIssues: List<String> = emptyList(),
     val codeLink: String,
@@ -45,9 +44,11 @@ data class SketchData(
     val status: SketchStatus = SketchStatus.HIDDEN,
     val knownIssues: List<String> = emptyList(),
 ) {
-    val codeLink: String = "$EXAMPLES_ROOT/${group.toString().lowercase()}/${funcName()}.kt";
+    val funcName: String = function.toString().substringBefore("$")
 
-    fun funcName(): String = function.toString().substringBefore("$")
+    val funcId: String = "$group-${funcName}"
+
+    val codeLink: String = "$EXAMPLES_ROOT/${group.toString().lowercase()}/${funcName}.kt";
 }
 
 private val visibleSketches: List<SketchData> by lazy {
@@ -58,7 +59,7 @@ private val visibleSketches: List<SketchData> by lazy {
 }
 
 val registry: Map<String, () -> Unit> by lazy {
-    visibleSketches.associate { it.title to it.function }
+    visibleSketches.associate { it.funcId to it.function }
 }
 
 private val groupedDtos: Map<String, List<SketchDto>> by lazy {
@@ -75,10 +76,9 @@ private val sketchesJson: String by lazy {
 }
 
 private fun SketchData.toDto(): SketchDto = SketchDto(
-    funcName = funcName() ,
+    funcId = funcId,
     navTitle = navTitle,
     title = title,
-    group = group.name,
     docLink = docLink,
     knownIssues = knownIssues,
     codeLink = codeLink,

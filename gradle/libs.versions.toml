@@ -1,7 +1,7 @@
 [versions]
 junit = "4.13.2"
 kotlin = "2.2.20"
-kotlin-wrap = "2025.10.7"
+kotlin-wrap = "2025.10.6"
 kotlinx-serialization = "1.9.0"
 
 # The OPENRNDR & ORX dependencies need to be built on the respective WASM branches
