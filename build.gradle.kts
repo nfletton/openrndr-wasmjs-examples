@@ -57,6 +57,8 @@ kotlin {
             implementation(libs.kotlin.js)
             implementation(libs.kotlin.browser)
             implementation(libs.kotlin.web)
+            implementation(libs.kotlinx.serialization.json)
+
 
             for (feature in orxFeatures) {
                 implementation(orx(feature))

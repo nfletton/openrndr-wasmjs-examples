@@ -1,4 +1,4 @@
-import {getNavigationLinks} from './wasmjsExamples.mjs';
+import {getSketchData, getNavigationLinks} from './wasmjsExamples.mjs';
 
 (() => {
 
@@ -63,6 +63,8 @@ import {getNavigationLinks} from './wasmjsExamples.mjs';
     }
 
     function init() {
+        let data = getSketchData()
+
         nav = document.querySelector('.nav');
         nav.appendChild(getNavigationLinks())
 

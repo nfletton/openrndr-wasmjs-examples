@@ -14,7 +14,7 @@ fun getNavigationLinks(): HTMLDivElement {
     val nav = document.createElement("div") as HTMLDivElement
     nav.className = ClassName("groups")
     nav.role = "tree"
-    sketches.groupBy { it.group }.forEach { pkg ->
+    sketches.filter({it.status != SketchStatus.HIDDEN}).groupBy { it.group }.forEach { pkg ->
         val details = document.createElement("details") as HTMLDetailsElement
         details.className = ClassName("group")
         details.role = "treeitem"
