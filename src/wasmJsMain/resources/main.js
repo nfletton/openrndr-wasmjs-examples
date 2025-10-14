@@ -89,6 +89,7 @@ import {getSketchData, runSketch} from './wasmjsExamples.mjs';
                 link.textContent = sketch["navTitle"];
 
                 link.onclick = (event) => {
+                    event.preventDefault()
                     console.log(`clicked on ${sketch["navTitle"]}`);
                     sessionStorage.setItem('funcId', sketch["funcId"]);
                     sessionStorage.setItem('sidebar', 'todo');
@@ -146,6 +147,30 @@ import {getSketchData, runSketch} from './wasmjsExamples.mjs';
             btnToggle.title = collapsed ? 'Expand sidebar' : 'Collapse sidebar';
             btnToggle.setAttribute('aria-label', btnToggle.title);
         });
+
+        const codeLink = sessionStorage.getItem('codeLink');
+        if (codeLink) {
+            const codeButton = document.getElementById('code-btn');
+            if (codeButton) {
+                codeButton.disabled = false;
+                codeButton.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    window.open(codeLink, '_blank');
+                })
+            }
+        }
+
+        const docLink = sessionStorage.getItem('docLink');
+        if (docLink) {
+            const docButton = document.getElementById('doc-btn');
+            if (docButton) {
+                docButton.disabled = false;
+                docButton.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    window.open(docLink, '_blank');
+                })
+            }
+        }
 
         const activeSketch = sessionStorage.getItem('funcId');
         if (activeSketch) runSketch(activeSketch);

@@ -53,6 +53,6 @@ internal val sketches = listOf(
         group = NavGroup.OPENRNDR,
         docLink = "${GUIDE_ROOT}drawing/color.html",
         status = SketchStatus.PARTIAL,
-        knownIssues = listOf("Colors are not working correctly"),
+        knownIssues = listOf("Colors are not displaying correctly"),
     )
 )
