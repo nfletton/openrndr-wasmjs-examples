@@ -5,17 +5,6 @@ import {getSketchData, runSketch} from './wasmjsExamples.mjs';
     let links;
     let activeLink = null;
 
-    let btnPrev;
-    let btnNext;
-
-    let btnToggle;
-
-
-    let canvas = null;
-    let ctx = null;
-    let contentEl = null;
-    let dpr = 1;
-
     function setNavGroupOpenState(targetGroup) {
         let groups = nav.querySelectorAll('details.group')
         groups.forEach(g => {
@@ -120,9 +109,9 @@ import {getSketchData, runSketch} from './wasmjsExamples.mjs';
 
         links = Array.from(nav.querySelectorAll('a[href]'));
 
-        btnPrev = document.getElementById('navPrev');
-        btnNext = document.getElementById('navNext');
-        btnToggle = document.getElementById('toggleSidebar');
+        let btnPrev = document.getElementById('navPrev');
+        let btnNext = document.getElementById('navNext');
+        let btnToggle = document.getElementById('toggleSidebar');
 
         let activeNavId = sessionStorage.getItem('funcId');
 
@@ -172,51 +161,37 @@ import {getSketchData, runSketch} from './wasmjsExamples.mjs';
             }
         }
 
+        // Canvas sizing: make the canvas fill the right panel and resize with window/panel
+        let contentEl = document.querySelector('.content');
+        let canvas = document.getElementById('openrndr-canvas');
+        if (contentEl && canvas instanceof HTMLCanvasElement) {
+            const resize = () => {
+                const rect = contentEl.getBoundingClientRect();
+                let dpr = Math.max(1, window.devicePixelRatio || 1);
+                // Set the canvas drawing buffer size
+                const w = Math.max(0, Math.floor(rect.width * dpr));
+                const h = Math.max(0, Math.floor(rect.height * dpr));
+                if (canvas.width !== w || canvas.height !== h) {
+                    canvas.width = w;
+                    canvas.height = h;
+                }
+                // Ensure CSS size continues to fill the parent
+                canvas.style.width = rect.width + 'px';
+                canvas.style.height = rect.height + 'px';
+            };
+
+            // Resize on window and on element size changes (sidebar drag)
+            const ro = new ResizeObserver(resize);
+            ro.observe(contentEl);
+            window.addEventListener('resize', resize);
+            // Initial sizing
+            resize();
+        }
+
         const activeSketch = sessionStorage.getItem('funcId');
         if (activeSketch) runSketch(activeSketch);
-
-        /*
-
-                // Canvas sizing: make the canvas fill the right panel and resize with window/panel
-                contentEl = document.querySelector('.content');
-                canvas = document.getElementById('openrndr-canvas');
-                canvas.removeAttribute('width');
-                canvas.removeAttribute('height');
-                if (contentEl && canvas instanceof HTMLCanvasElement) {
-                    ctx = canvas.getContext('2d');
-                    const resize = (entries, observer) => {
-                        console.log("resize");
-                        const rect = contentEl.getBoundingClientRect();
-                        dpr = Math.max(1, window.devicePixelRatio || 1);
-                        // Set the canvas drawing buffer size
-                        const w = Math.max(0, Math.floor(rect.width * dpr));
-                        const h = Math.max(0, Math.floor(rect.height * dpr));
-                        // if (canvas.width !== w || canvas.height !== h) {
-                        //     canvas.width = w;
-                        //     canvas.height = h;
-                        // }
-                        // Ensure CSS size continues to fill the parent
-                        // canvas.width = rect.width;
-                        // canvas.height = rect.height;
-                    };
-                    canvas.removeAttribute('width');
-                    canvas.removeAttribute('height');
-
-                    // Resize on window and on element size changes (sidebar drag)
-                    const ro = new ResizeObserver(debounce(resize, 300));
-                    ro.observe(contentEl);
-                    // window.addEventListener('resize', resize);
-                    // Initial sizing
-                    // resize();
-                }
-        */
-
-
-        /*
-                // Ensure header buttons reflect current state on load
-                updateHeaderNavButtons();
-        */
     }
+
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
