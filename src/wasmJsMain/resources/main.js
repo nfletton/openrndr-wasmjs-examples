@@ -1,4 +1,4 @@
-import {getSketchData} from './wasmjsExamples.mjs';
+import {getSketchData, runSketch} from './wasmjsExamples.mjs';
 
 (() => {
     let nav;
@@ -146,6 +146,9 @@ import {getSketchData} from './wasmjsExamples.mjs';
             btnToggle.title = collapsed ? 'Expand sidebar' : 'Collapse sidebar';
             btnToggle.setAttribute('aria-label', btnToggle.title);
         });
+
+        const activeSketch = sessionStorage.getItem('funcId');
+        if (activeSketch) runSketch(activeSketch);
 
         /*
 

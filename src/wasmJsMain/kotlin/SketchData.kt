@@ -7,15 +7,16 @@ import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
 import wasmjs.openrndr.basicDrawerDemo
 import wasmjs.openrndr.colorDemo
+import web.console.console
 
-enum class SketchStatus {
+private enum class SketchStatus {
     HIDDEN,
     COMPLETE,
     PARTIAL,
 }
 
 @Serializable
-enum class NavGroup {
+private enum class NavGroup {
     OPENRNDR,
     ORX,
     OTHER,
@@ -26,7 +27,7 @@ private const val EXAMPLES_ROOT =
 private const val GUIDE_ROOT = "https://guide.openrndr.org/"
 
 @Serializable
-data class SketchDto(
+private data class SketchDto(
     val funcId: String,
     val navTitle: String,
     val title: String,
@@ -35,7 +36,7 @@ data class SketchDto(
     val codeLink: String,
 )
 
-data class SketchData(
+private data class SketchData(
     val navTitle: String,
     val title: String,
     val function: () -> Unit,
@@ -46,7 +47,7 @@ data class SketchData(
 ) {
     val funcName: String = function.toString().substringBefore("$")
 
-    val funcId: String = "$group-${funcName}"
+    val funcId: String = "$group-${funcName}".lowercase()
 
     val codeLink: String = "$EXAMPLES_ROOT/${group.toString().lowercase()}/${funcName}.kt";
 }
@@ -58,7 +59,7 @@ private val visibleSketches: List<SketchData> by lazy {
         .toList()
 }
 
-val registry: Map<String, () -> Unit> by lazy {
+private val registry: Map<String, () -> Unit> by lazy {
     visibleSketches.associate { it.funcId to it.function }
 }
 
@@ -84,7 +85,7 @@ private fun SketchData.toDto(): SketchDto = SketchDto(
     codeLink = codeLink,
 )
 
-val sketches = listOf(
+private val sketches = listOf(
     SketchData(
         navTitle = "Drawing Basics",
         title = "Drawing circles, rectangles and lines",
@@ -108,4 +109,11 @@ val sketches = listOf(
 @JsExport
 fun getSketchData(): String {
     return sketchesJson
+}
+
+@OptIn(ExperimentalWasmJsInterop::class, ExperimentalJsExport::class)
+@JsExport
+fun runSketch(funcId: String) {
+    console.log("Running sketch: ${registry[funcId]}")
+    return registry[funcId]?.invoke() ?: console.log("No sketch found for id: $funcId")
 }
