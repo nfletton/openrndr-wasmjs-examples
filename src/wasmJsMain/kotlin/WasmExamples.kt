@@ -6,6 +6,7 @@ import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
 import web.console.console
+import web.storage.sessionStorage
 
 @Serializable
 private data class SketchDto(
@@ -51,15 +52,13 @@ private fun SketchData.toDto(): SketchDto = SketchDto(
     codeLink = codeLink,
 )
 
-@OptIn(ExperimentalWasmJsInterop::class, ExperimentalJsExport::class)
-@JsExport
-fun getSketchData(): String {
-    return sketchesJson
-}
-
-@OptIn(ExperimentalWasmJsInterop::class, ExperimentalJsExport::class)
-@JsExport
 fun runSketch(funcId: String) {
     console.log("Running sketch: ${registry[funcId]}")
     registry[funcId]?.invoke() ?: console.log("No sketch found for id: $funcId")
+}
+
+fun main() {
+    initUI(sketchesJson)
+    val activeSketch = sessionStorage.getItem("funcId");
+    if (activeSketch != null) runSketch(activeSketch);
 }

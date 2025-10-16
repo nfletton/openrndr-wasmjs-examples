@@ -1,6 +1,4 @@
-import {getSketchData, runSketch} from './wasmjsExamples.mjs';
-
-(() => {
+export function initUI(sketchJson) {
     let nav;
     let links;
     let activeLink = null;
@@ -49,7 +47,7 @@ import {getSketchData, runSketch} from './wasmjsExamples.mjs';
         };
     }
 
-    function getNavigationLinks(sketchData) {
+    function displayNavigationLinks(sketchData) {
         const nav = document.createElement('div');
         nav.className = 'groups';
         nav.setAttribute('role', 'tree');
@@ -100,12 +98,10 @@ import {getSketchData, runSketch} from './wasmjsExamples.mjs';
     }
 
     function init() {
-        let sketchJson = getSketchData()
-
         const sketchData = JSON.parse(sketchJson)
 
         nav = document.querySelector('.nav');
-        nav.appendChild(getNavigationLinks(sketchData))
+        nav.appendChild(displayNavigationLinks(sketchData))
 
         links = Array.from(nav.querySelectorAll('a[href]'));
 
@@ -165,7 +161,7 @@ import {getSketchData, runSketch} from './wasmjsExamples.mjs';
         let contentEl = document.querySelector('.content');
         let canvas = document.getElementById('openrndr-canvas');
         if (contentEl && canvas instanceof HTMLCanvasElement) {
-            const resize = () => {
+            const resizeNow = () => {
                 const rect = contentEl.getBoundingClientRect();
                 let dpr = Math.max(1, window.devicePixelRatio || 1);
                 // Set the canvas drawing buffer size
@@ -175,27 +171,25 @@ import {getSketchData, runSketch} from './wasmjsExamples.mjs';
                     canvas.width = w;
                     canvas.height = h;
                 }
-                // Ensure CSS size continues to fill the parent
-                canvas.style.width = rect.width + 'px';
-                canvas.style.height = rect.height + 'px';
             };
 
-            // Resize on window and on element size changes (sidebar drag)
-            const ro = new ResizeObserver(resize);
+            const resize = () => {
+                // schedule outside of observer's delivery to avoid feedback loop
+                requestAnimationFrame(resizeNow);
+            };
+
+
+            const ro = new ResizeObserver(() => {
+                resize();
+            });
             ro.observe(contentEl);
-            window.addEventListener('resize', resize);
-            // Initial sizing
-            resize();
+            resizeNow()
         }
-
-        const activeSketch = sessionStorage.getItem('funcId');
-        if (activeSketch) runSketch(activeSketch);
     }
-
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {
         init();
     }
-})();
+}

@@ -41,6 +41,7 @@ kotlin {
         outputModuleName.set("wasmjsExamples")
         browser {
             commonWebpackConfig {
+                sourceMaps = true
                 outputFileName = "wasmjsExamples.js"
             }
         }

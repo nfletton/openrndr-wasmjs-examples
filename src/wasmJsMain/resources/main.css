@@ -122,9 +122,6 @@ body {
 
 .content canvas {
     display: block;
-    width: 100%;
-    height: 100%;
-    /* No border, fills entire area */
     touch-action: none; /* prevent touch scrolling/zooming on canvas */
 }
 
