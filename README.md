@@ -12,6 +12,8 @@ The examples cover the basics of OPENRNDR by replicating many of the examples fr
 
 ## Developing
 
+### Running locally
+
 To get started run
 
 ```bash
@@ -30,12 +32,11 @@ During development the produced JavaScript program occupies a few megabytes.
 Once the project is ready to be shared, one can export a minimized executable by running
 
 ```bash
-#./gradlew wasmJsBrowserProductionWebpack
 ./gradlew wasmJsBrowserDistribution
 ```
 
 This will place the resulting files into the
-`build/dist/wasmJs/productionExecutable/` folder.
+`./build/dist/wasmJs/productionExecutable/` folder.
 
 [//]: # (## JavaScript communication)
 

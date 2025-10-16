@@ -61,5 +61,5 @@ fun getSketchData(): String {
 @JsExport
 fun runSketch(funcId: String) {
     console.log("Running sketch: ${registry[funcId]}")
-    return registry[funcId]?.invoke() ?: console.log("No sketch found for id: $funcId")
+    registry[funcId]?.invoke() ?: console.log("No sketch found for id: $funcId")
 }
