@@ -43,7 +43,7 @@ export function initUI(sketchJson) {
         let timer;
         return function (...args) {
             clearTimeout(timer);
-            console.log("debounce");
+            console.log('debounce');
             timer = setTimeout(() => func.apply(this, args), delay);
         };
     }
@@ -73,16 +73,17 @@ export function initUI(sketchJson) {
                 const li = document.createElement('li');
                 const link = document.createElement('a');
                 link.href = '#';
-                link.id = sketch["funcId"];
-                link.textContent = sketch["navTitle"];
+                link.id = sketch['funcId'];
+                link.textContent = sketch['navTitle'];
 
                 link.onclick = (event) => {
                     event.preventDefault()
-                    console.log(`clicked on ${sketch["navTitle"]}`);
-                    sessionStorage.setItem('funcId', sketch["funcId"]);
+                    console.log(`clicked on ${sketch['navTitle']}`);
+                    sessionStorage.setItem('funcId', sketch['funcId']);
                     sessionStorage.setItem('sidebar', getComputedStyle(sidebar).width);
-                    sessionStorage.setItem('codeLink', sketch["codeLink"]);
-                    sessionStorage.setItem('docLink', sketch["docLink"]);
+                    sessionStorage.setItem('codeLink', sketch['codeLink']);
+                    sessionStorage.setItem('docLink', sketch['docLink']);
+                    sessionStorage.setItem('title', sketch['title']);
                     document.location.reload();
                 };
 
@@ -166,6 +167,14 @@ export function initUI(sketchJson) {
                     event.preventDefault();
                     window.open(docLink, '_blank');
                 })
+            }
+        }
+
+        const title = sessionStorage.getItem('title');
+        if (title) {
+            const titleEl = document.getElementById('title');
+            if (titleEl) {
+                titleEl.textContent = title;
             }
         }
 
