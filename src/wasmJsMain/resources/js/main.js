@@ -84,6 +84,7 @@ export function initUI(sketchJson) {
                     sessionStorage.setItem('codeLink', sketch['codeLink']);
                     sessionStorage.setItem('docLink', sketch['docLink']);
                     sessionStorage.setItem('title', sketch['title']);
+                    sessionStorage.setItem('comment', sketch['comment']);
                     document.location.reload();
                 };
 
@@ -175,6 +176,14 @@ export function initUI(sketchJson) {
             const titleEl = document.getElementById('title');
             if (titleEl) {
                 titleEl.textContent = title;
+            }
+        }
+
+        const comment = sessionStorage.getItem('comment');
+        if (comment) {
+            const commentEl = document.getElementById('comment');
+            if (commentEl) {
+                commentEl.textContent = comment;
             }
         }
 

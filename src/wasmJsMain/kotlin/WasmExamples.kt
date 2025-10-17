@@ -14,7 +14,7 @@ private data class SketchDto(
     val navTitle: String,
     val title: String,
     val docLink: String,
-    val knownIssues: List<String> = emptyList(),
+    val comment: String,
     val codeLink: String,
 )
 
@@ -48,7 +48,7 @@ private fun SketchData.toDto(): SketchDto = SketchDto(
     navTitle = navTitle,
     title = title,
     docLink = docLink,
-    knownIssues = knownIssues,
+    comment = comment,
     codeLink = codeLink,
 )
 

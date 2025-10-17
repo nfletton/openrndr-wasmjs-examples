@@ -28,7 +28,7 @@ internal data class SketchData(
     val group: NavGroup,
     val docLink: String,
     val status: SketchStatus = SketchStatus.HIDDEN,
-    val knownIssues: List<String> = emptyList(),
+    val comment: String = "",
 ) {
     val funcName: String = function.toString().substringBefore("$")
 
@@ -53,6 +53,6 @@ internal val sketches = listOf(
         group = NavGroup.OPENRNDR,
         docLink = "${GUIDE_ROOT}drawing/color.html",
         status = SketchStatus.PARTIAL,
-        knownIssues = listOf("Colors are not displaying correctly"),
+        comment = "Bug: Colors are not displaying correctly",
     )
 )

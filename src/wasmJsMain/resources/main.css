@@ -206,15 +206,13 @@ body.nav-collapsed .nav :is(h1, .hint, .groups) {
     box-sizing: border-box;
 }
 .statusbar .panel {
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 4px 8px;
-    background: light-dark(#ffffff, #151922);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    gap: 8px;
 }
+
 /* Hide any empty status panels so they don't occupy space */
 .statusbar .panel:empty {
     display: none;
