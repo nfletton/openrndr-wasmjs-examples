@@ -1,8 +1,9 @@
 package wasmJs
 
 import kotlinx.serialization.Serializable
-import wasmjs.openrndr.basicDrawerDemo
-import wasmjs.openrndr.colorDemo
+import wasmjs.openrndr.DemoBasicDraw
+import wasmjs.openrndr.DemoColor
+import wasmjs.orxeasing.DemoEasings01
 
 internal enum class SketchStatus {
     HIDDEN,
@@ -11,10 +12,9 @@ internal enum class SketchStatus {
 }
 
 @Serializable
-internal enum class NavGroup {
-    OPENRNDR,
-    ORX,
-    OTHER,
+internal enum class Package(val displayName: String) {
+    OPENRNDR("OPENRNDR"),
+    ORXEASING("ORX Easing"),
 }
 
 private const val EXAMPLES_ROOT =
@@ -25,34 +25,43 @@ internal data class SketchData(
     val navTitle: String,
     val title: String,
     val function: () -> Unit,
-    val group: NavGroup,
+    val pkg: Package,
     val docLink: String,
     val status: SketchStatus = SketchStatus.HIDDEN,
     val comment: String = "",
 ) {
     val funcName: String = function.toString().substringBefore("$")
 
-    val funcId: String = "$group-${funcName}".lowercase()
+    val funcId: String = "$pkg-${funcName}".lowercase()
 
-    val codeLink: String = "$EXAMPLES_ROOT/${group.toString().lowercase()}/${funcName}.kt";
+    val codeLink: String = "$EXAMPLES_ROOT/wasmjs/${pkg.toString().lowercase()}/${funcName}.kt";
 }
 
 internal val sketches = listOf(
     SketchData(
         navTitle = "Drawing Basics",
         title = "Drawing circles, rectangles and lines",
-        function = ::basicDrawerDemo,
-        group = NavGroup.OPENRNDR,
+        function = ::DemoBasicDraw,
+        pkg = Package.OPENRNDR,
         docLink = "${GUIDE_ROOT}drawing/circlesRectanglesLines.html",
         status = SketchStatus.COMPLETE,
     ),
     SketchData(
         navTitle = "Color Basics",
         title = "Core color functionality",
-        function = ::colorDemo,
-        group = NavGroup.OPENRNDR,
+        function = ::DemoColor,
+        pkg = Package.OPENRNDR,
         docLink = "${GUIDE_ROOT}drawing/color.html",
         status = SketchStatus.PARTIAL,
         comment = "Bug: Colors are not displaying correctly",
-    )
+    ),
+    SketchData(
+        navTitle = "Easings",
+        title = "ORX Easing",
+        function = ::DemoEasings01,
+        pkg = Package.ORXEASING,
+        docLink = "https://github.com/openrndr/orx/tree/master/orx-easing",
+        status = SketchStatus.PARTIAL,
+        comment = "Text labelling is not implemented",
+    ),
 )

@@ -1,10 +1,14 @@
-package wasmJs
+package wasmjs
 
+import initUI
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
+import wasmJs.SketchData
+import wasmJs.SketchStatus
+import wasmJs.sketches
 import web.console.console
 import web.storage.sessionStorage
 
@@ -22,7 +26,7 @@ private data class SketchDto(
 private val visibleSketches: List<SketchData> by lazy {
     sketches.asSequence()
         .filter { it.status != SketchStatus.HIDDEN }
-        .sortedWith(compareBy<SketchData> { it.group.ordinal })
+        .sortedWith(compareBy<SketchData> { it.pkg.ordinal })
         .toList()
 }
 
@@ -32,7 +36,7 @@ private val registry: Map<String, () -> Unit> by lazy {
 
 private val groupedDtos: Map<String, List<SketchDto>> by lazy {
     visibleSketches
-        .groupBy { it.group.name }
+        .groupBy { it.pkg.displayName }
         .mapValues { (_, list) -> list.map { it.toDto() } }
 }
 

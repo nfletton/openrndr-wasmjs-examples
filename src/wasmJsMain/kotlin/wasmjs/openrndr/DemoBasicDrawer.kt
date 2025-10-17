@@ -2,14 +2,13 @@ package wasmjs.openrndr
 
 import org.openrndr.application
 import org.openrndr.color.ColorRGBa
-import org.openrndr.color.rgb
 import org.openrndr.draw.LineCap
 import org.openrndr.math.Vector2
 import org.openrndr.shape.Rectangle
 import kotlin.random.Random
 
 
-fun basicDrawerDemo() {
+fun DemoBasicDraw() {
     application {
         configure {
             title = "OPENRNDR - Basic Drawing"

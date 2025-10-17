@@ -8,7 +8,7 @@ import org.openrndr.shape.Rectangle
 import kotlin.random.Random
 
 
-fun colorDemo() {
+fun DemoColor() {
     application {
         configure {
             title = "OPENRNDR - Color"
