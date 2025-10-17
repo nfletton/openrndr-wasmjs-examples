@@ -2,6 +2,7 @@ export function initUI(sketchJson) {
     let nav;
     let links;
     let activeLink = null;
+    const sidebar = document.getElementById('sidebar');
 
     function setNavGroupOpenState(targetGroup) {
         let groups = nav.querySelectorAll('details.group')
@@ -79,7 +80,7 @@ export function initUI(sketchJson) {
                     event.preventDefault()
                     console.log(`clicked on ${sketch["navTitle"]}`);
                     sessionStorage.setItem('funcId', sketch["funcId"]);
-                    sessionStorage.setItem('sidebar', 'todo');
+                    sessionStorage.setItem('sidebar', getComputedStyle(sidebar).width);
                     sessionStorage.setItem('codeLink', sketch["codeLink"]);
                     sessionStorage.setItem('docLink', sketch["docLink"]);
                     document.location.reload();
@@ -94,6 +95,16 @@ export function initUI(sketchJson) {
 
         });
 
+        const sidebarWidth = sessionStorage.getItem('sidebar');
+        if (sidebarWidth) {
+            if (sidebarWidth === '0px') {
+                document.body.classList.add('nav-collapsed');
+            } else {
+                if (sidebarWidth.endsWith('px')) {
+                    sidebar.style.width = sidebarWidth;
+                }
+            }
+        }
         return nav;
     }
 
@@ -131,6 +142,7 @@ export function initUI(sketchJson) {
             // Update button title/icon for clarity
             btnToggle.title = collapsed ? 'Expand sidebar' : 'Collapse sidebar';
             btnToggle.setAttribute('aria-label', btnToggle.title);
+            sessionStorage.setItem('sidebar', getComputedStyle(sidebar).width);
         });
 
         const codeLink = sessionStorage.getItem('codeLink');

@@ -65,14 +65,13 @@ body {
     display: grid;
     gap: 6px;
     grid-auto-rows: min-content;
-    min-width: 360px; /* ensures horizontal scrollbar is possible when resized narrow */
 }
 
 /* Collapsible groups (one level deep) */
 .nav .groups {
     display: grid;
     gap: 8px;
-    min-width: 360px; /* maintain horizontal scrolling behavior */
+    min-width: 200px; /* maintain horizontal scrolling behavior */
 }
 .nav details.group {
     border: 1px solid var(--border);
