@@ -23,7 +23,7 @@ val orxFeatures = setOf<String>(
     "orx-noise",
 //    "orx-parameters",
     "orx-shade-styles",
-//    "orx-shader-phrases",
+        "orx-shader-phrases",
     "orx-shapes",
     "orx-svg",
 //    "orx-quadtree",

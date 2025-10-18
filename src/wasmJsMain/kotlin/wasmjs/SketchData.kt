@@ -1,9 +1,15 @@
 package wasmJs
 
 import kotlinx.serialization.Serializable
+import rbf.RbfInterpolation01
+import rbf.RbfInterpolation02
 import wasmjs.openrndr.DemoBasicDraw
 import wasmjs.openrndr.DemoColor
 import wasmjs.orxeasing.DemoEasings01
+import wasmjs.orxmath.DemoLeastSquares01
+import wasmjs.orxmath.DemoLeastSquares02
+import wasmjs.orxmath.DemoLinearRange02
+import wasmjs.orxmath.DemoLinearRange03
 
 internal enum class SketchStatus {
     HIDDEN,
@@ -15,6 +21,7 @@ internal enum class SketchStatus {
 internal enum class Package(val displayName: String) {
     OPENRNDR("OPENRNDR"),
     ORXEASING("ORX Easing"),
+    ORXMATH("ORX Math"),
 }
 
 private const val EXAMPLES_ROOT =
@@ -63,5 +70,59 @@ internal val sketches = listOf(
         docLink = "https://github.com/openrndr/orx/tree/master/orx-easing",
         status = SketchStatus.PARTIAL,
         comment = "Text labelling is not implemented",
+    ),
+    SketchData(
+        navTitle = "Linear Range 2",
+        title = "ORX Math Linear Range",
+        function = ::DemoLinearRange02,
+        pkg = Package.ORXMATH,
+        docLink = "https://github.com/openrndr/orx/tree/master/orx-math#linearrangedemolinearrange02",
+        status = SketchStatus.COMPLETE,
+        comment = "",
+    ),
+    SketchData(
+        navTitle = "Linear Range 3",
+        title = "ORX Math Linear Range",
+        function = ::DemoLinearRange03,
+        pkg = Package.ORXMATH,
+        docLink = "https://github.com/openrndr/orx/tree/master/orx-math#linearrangedemolinearrange03",
+        status = SketchStatus.COMPLETE,
+        comment = "",
+    ),
+    SketchData(
+        navTitle = "Least Squares 1",
+        title = "Uses method to fit a regression line to noisy points",
+        function = ::DemoLeastSquares01,
+        pkg = Package.ORXMATH,
+        docLink = "https://github.com/openrndr/orx/tree/master/orx-math#matrixdemoleastsquares01",
+        status = SketchStatus.COMPLETE,
+        comment = "",
+    ),
+    SketchData(
+        navTitle = "Least Squares 2",
+        title = "Uses method to fit a cubic bezier to noisy points",
+        function = ::DemoLeastSquares02,
+        pkg = Package.ORXMATH,
+        docLink = "https://github.com/openrndr/orx/tree/master/orx-math#matrixdemoleastsquares02",
+        status = SketchStatus.COMPLETE,
+        comment = "",
+    ),
+    SketchData(
+        navTitle = "RBF 1",
+        title = "",
+        function = ::RbfInterpolation01,
+        pkg = Package.ORXMATH,
+        docLink = "https://github.com/openrndr/orx/tree/master/orx-math#rbfrbfinterpolation01",
+        status = SketchStatus.COMPLETE,
+        comment = "",
+    ),
+    SketchData(
+        navTitle = "RBF 2",
+        title = "",
+        function = ::RbfInterpolation02,
+        pkg = Package.ORXMATH,
+        docLink = "https://github.com/openrndr/orx/tree/master/orx-math#rbfrbfinterpolation02",
+        status = SketchStatus.COMPLETE,
+        comment = "",
     ),
 )
