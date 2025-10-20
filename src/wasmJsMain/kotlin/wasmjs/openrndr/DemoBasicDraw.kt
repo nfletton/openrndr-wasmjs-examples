@@ -3,6 +3,7 @@ package wasmjs.openrndr
 import org.openrndr.application
 import org.openrndr.color.ColorRGBa
 import org.openrndr.draw.LineCap
+import org.openrndr.extra.shapes.primitives.grid
 import org.openrndr.math.Vector2
 import org.openrndr.shape.Rectangle
 import kotlin.random.Random
@@ -10,110 +11,95 @@ import kotlin.random.Random
 
 fun DemoBasicDraw() {
     application {
-        configure {
-            title = "OPENRNDR - Basic Drawing"
-            windowResizable = true
-        }
-
         program {
+            val columns = 3
+            val rows = 6
+            val margin = 20.0
+
+            fun createGrid() = drawer.bounds.grid(
+                columns, rows, margin, margin, margin, margin
+            )
+
+            var grid: List<List<Rectangle>> = createGrid()
+            window.sized.listen {
+                grid = createGrid()
+            }
+
             extend {
-                val columns = 3
-                val rows = 6
-                val margin = 20.0
-                val cellWidth = (width - margin * (columns + 1)) / columns
-                val cellHeight = (height - margin * (rows + 1)) / rows
+                val cellWidth = grid[0][0].width
+                val cellHeight = grid[0][0].height
 
-                val cells = buildList {
-                    repeat(columns) { columnIndex ->
-                        add(buildList {
-                            repeat(rows) { rowIndex ->
-                                add(
-                                    Rectangle(
-                                        Vector2(
-                                            columnIndex * cellWidth + (columnIndex + 1) * margin,
-                                            rowIndex * cellHeight + (rowIndex + 1) * margin
-                                        ), cellWidth, cellHeight
-                                    )
-                                )
-                            }
-                        })
-                    }
-                }
-
-
-                val circleRadius = if (cellWidth < cellHeight) cellWidth / 2.0 else cellHeight / 2.0
-                val rectWidth = cells[0][0].width
-                val rectHeight = cells[0][0].height
-
-                drawer.clear(ColorRGBa.PINK)
+                drawer.clear(ColorRGBa.BLACK)
 
                 /* CIRCLES */
-                // -- draw a circle with white fill and black stroke
-                drawer.stroke = ColorRGBa.BLACK
+                val circleRadius = if (cellWidth < cellHeight) cellWidth / 2.0 else cellHeight / 2.0
+                // -- draw a circle with pink fill and white stroke
+                drawer.stroke = ColorRGBa.WHITE
+                drawer.fill = ColorRGBa.PINK
                 drawer.strokeWeight = 1.0
-                drawer.circle(cells[0][0].center, circleRadius)
+                drawer.circle(grid[0][0].center, circleRadius)
 
-                // -- draw a circle without a fill, but with black stroke
+                // -- draw a circle without a fill, but with white stroke
+                drawer.stroke = ColorRGBa.WHITE
                 drawer.fill = null
-                drawer.stroke = ColorRGBa.BLACK
                 drawer.strokeWeight = 1.0
-                drawer.circle(cells[1][0].center, circleRadius)
+                drawer.circle(grid[0][1].center, circleRadius)
 
-                // -- draw a circle with white fill, but without a stroke
-                drawer.fill = ColorRGBa.WHITE
+                // -- draw a circle with pink fill, but without a stroke
                 drawer.stroke = null
+                drawer.fill = ColorRGBa.PINK
                 drawer.strokeWeight = 1.0
-                drawer.circle(cells[2][0].center, circleRadius)
+                drawer.circle(grid[0][2].center, circleRadius)
 
                 /* RECTANGLES */
-                // -- draw rectangle with white fill and black stroke
-                drawer.fill = ColorRGBa.WHITE
-                drawer.stroke = ColorRGBa.BLACK
+                // -- draw rectangle with pink fill and white stroke
+                drawer.fill = ColorRGBa.PINK
+                drawer.stroke = ColorRGBa.WHITE
                 drawer.strokeWeight = 1.0
-                drawer.rectangle(cells[0][1].corner, rectWidth, rectHeight)
+                drawer.rectangle(grid[1][0].corner, cellWidth, cellHeight)
 
-                // -- draw rectangle without fill, but with black stroke
+                // -- draw rectangle without fill, but with white stroke
                 drawer.fill = null
-                drawer.stroke = ColorRGBa.BLACK
+                drawer.stroke = ColorRGBa.WHITE
                 drawer.strokeWeight = 1.0
-                drawer.rectangle(cells[1][1].corner, rectWidth, rectHeight)
+                drawer.rectangle(grid[1][1].corner, cellWidth, cellHeight)
 
-                // -- draw a rectangle with white fill, but without stroke
-                drawer.fill = ColorRGBa.WHITE
+                // -- draw a rectangle with pink fill, but without stroke
+                drawer.fill = ColorRGBa.PINK
                 drawer.stroke = null
                 drawer.strokeWeight = 1.0
-                drawer.rectangle(cells[2][1].corner, rectWidth, rectHeight)
+                drawer.rectangle(grid[1][2].corner, cellWidth, cellHeight)
 
                 /* LINES */
                 // -- setup line appearance
-                drawer.stroke = ColorRGBa.BLACK
+                drawer.stroke = ColorRGBa.WHITE
                 drawer.strokeWeight = 5.0
                 drawer.lineCap = LineCap.ROUND
 
                 drawer.lineSegment(
-                    cells[0][2].center - Vector2(0.0, cellHeight / 3),
-                    cells[2][2].center - Vector2(0.0, cellHeight / 3)
+                    grid[2][0].center - Vector2(0.0, cellHeight / 3),
+                    grid[2][2].center - Vector2(0.0, cellHeight / 3)
                 )
 
                 drawer.lineCap = LineCap.BUTT
-                drawer.lineSegment(cells[0][2].center, cells[2][2].center)
+                drawer.lineSegment(grid[2][0].center, grid[2][2].center)
 
                 drawer.lineCap = LineCap.SQUARE
                 drawer.lineSegment(
-                    cells[0][2].center + Vector2(0.0, cellHeight / 3),
-                    cells[2][2].center + Vector2(0.0, cellHeight / 3)
+                    grid[2][0].center + Vector2(0.0, cellHeight / 3),
+                    grid[2][2].center + Vector2(0.0, cellHeight / 3)
                 )
 
                 /* LINE STRIP */
                 // -- setup line appearance
-                drawer.stroke = ColorRGBa.BLACK
+                drawer.stroke = ColorRGBa.WHITE
                 drawer.strokeWeight = 5.0
                 drawer.lineCap = LineCap.ROUND
 
                 var points = listOf(
-                    cells[0][3].corner,
-                    cells[1][3].center + Vector2(0.0, cellHeight / 2.0),
-                    cells[2][3].corner + Vector2(cellWidth, 0.0),
+                    grid[3][0].corner,
+                    grid[3][1].center + Vector2(0.0, cellHeight / 2.0),
+                    grid[3][2].corner + Vector2(cellWidth, 0.0),
                 )
                 drawer.lineStrip(points)
 
@@ -127,8 +113,8 @@ fun DemoBasicDraw() {
                 val random = Random(1234)
                 val nPoints = 2000
                 points = buildList {
-                    val topLeftX = cells[0][5].x
-                    val topLeftY = cells[0][5].y
+                    val topLeftX = grid[5][0].x
+                    val topLeftY = grid[5][0].y
                     val topRightX = topLeftX + columns * cellWidth + (columns - 1) * margin
                     val bottomLeftY = topLeftY + cellHeight
                     repeat(nPoints) {
