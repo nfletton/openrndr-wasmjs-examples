@@ -169,11 +169,24 @@ export function initUI(sketchJson) {
             sessionStorage.setItem('navHidden', navHidden);
         });
 
-        const resizeObserver = new ResizeObserver(entries => {
-            for (let entry of entries) {
-                navWidth = entry.target.style.width;
-                sessionStorage.setItem('navWidth', navWidth);
+        const debounce = (fn, wait = 150) => {
+            let t;
+            return (...args) => {
+                clearTimeout(t);
+                t = setTimeout(() => fn(...args), wait);
+            };
+        };
+
+        const onResize = debounce((entry) => {
+            const width = entry.target.style.width;
+            if (width && width !== navWidth) {
+                navWidth = width;
+                sessionStorage.setItem('navWidth', width);
             }
+        }, 150);
+
+        const resizeObserver = new ResizeObserver(entries => {
+            for (const entry of entries) onResize(entry);
         });
 
         resizeObserver.observe(nav);
