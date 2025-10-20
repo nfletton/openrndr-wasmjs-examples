@@ -16,10 +16,12 @@ import org.openrndr.shape.Rectangle
 fun DemoEasings01() = application {
 
     program {
-        // grid `columns * rows` must be >= Easing.values().size
-        val grid = drawer.bounds.grid(
-            3, 11, 10.0, 10.0, 10.0, 10.0
-        ).flatten()
+        fun createGrid() =
+            drawer.bounds.grid(
+                3, 11, 10.0, 10.0, 10.0, 10.0
+            ).flatten()
+
+        var grid: List<Rectangle> = createGrid()
 
         // Precompute static data (graph points and label positions) once
         data class Plot(
@@ -28,8 +30,10 @@ fun DemoEasings01() = application {
             val graphPoints: List<Vector2>,
             val labelPos: Vector2
         )
+
         val samples = 40
-        val plots: List<Plot> = enumValues<Easing>().toList()
+
+        fun createPlots(): List<Plot> = enumValues<Easing>().toList()
             .zip(grid)
             .map { (easing, rect) ->
                 val pts = List(samples) { i ->
@@ -40,15 +44,23 @@ fun DemoEasings01() = application {
                 Plot(easing, rect, pts, labelPos)
             }
 
+
+        var plots = createPlots()
+
         // Reuse colors
         val bgFill = ColorRGBa(1.0, 1.0, 1.0, 0.3)
         val graphStroke = ColorRGBa.PINK
         val labelFill = ColorRGBa.WHITE
         val dotRadius = 5.0
 
-        extend {
+        window.sized.listen {
+            // grid `columns * rows` must be >= Easing.values().size
+            grid = createGrid()
+            plots = createPlots()
+        }
 
-            // ~4 seconds animation loop at 60 fps
+        extend {
+            // ~4 second animation loop at 60 fps
             val animT = (frameCount % 240) / 60.0
 
             // Pass 1: backgrounds
