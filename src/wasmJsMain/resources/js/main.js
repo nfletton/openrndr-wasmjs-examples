@@ -4,6 +4,7 @@ export function initUI(sketchJson) {
     const defaultNavWidth = '240px';
     let navWidth = defaultNavWidth;
     let navHidden = 'true';
+    let sketches = []
 
     const nav = document.getElementById('sidebar');
 
@@ -47,6 +48,7 @@ export function initUI(sketchJson) {
         nav.className = 'groups';
         nav.setAttribute('role', 'tree');
 
+        let sketchIndex = 0
         Object.keys(sketchData).forEach(groupName => {
             let groupData = sketchData[groupName];
             const details = document.createElement('details');
@@ -69,19 +71,9 @@ export function initUI(sketchJson) {
                 link.href = '#';
                 link.id = sketch['funcId'];
                 link.textContent = sketch['navTitle'];
-
-                link.onclick = (event) => {
-                    event.preventDefault()
-                    console.log(`clicked on ${sketch['navTitle']}`);
-                    sessionStorage.setItem('funcId', sketch['funcId']);
-                    sessionStorage.setItem('navWidth', navWidth);
-                    sessionStorage.setItem('navHidden',navHidden);
-                    sessionStorage.setItem('codeLink', sketch['codeLink']);
-                    sessionStorage.setItem('docLink', sketch['docLink']);
-                    sessionStorage.setItem('title', sketch['title']);
-                    sessionStorage.setItem('comment', sketch['comment']);
-                    document.location.reload();
-                };
+                link.dataset.sketchId = String(sketchIndex++);
+                link.className = 'nav-link';
+                sketches.push(sketch);
 
                 li.appendChild(link);
                 ul.appendChild(li);
@@ -90,6 +82,20 @@ export function initUI(sketchJson) {
             details.appendChild(ul);
             nav.appendChild(details);
 
+            nav.addEventListener('click', (event) => {
+                const clickedLink = event.target.closest('a.nav-link')
+                if (clickedLink) {
+                    const sketch = sketches[Number(clickedLink.dataset.sketchId)]
+                    sessionStorage.setItem('funcId', sketch['funcId']);
+                    sessionStorage.setItem('navWidth', navWidth);
+                    sessionStorage.setItem('navHidden', navHidden);
+                    sessionStorage.setItem('codeLink', sketch['codeLink']);
+                    sessionStorage.setItem('docLink', sketch['docLink']);
+                    sessionStorage.setItem('title', sketch['title']);
+                    sessionStorage.setItem('comment', sketch['comment']);
+                    document.location.reload();
+                }
+            })
         });
 
         return nav;
@@ -161,7 +167,6 @@ export function initUI(sketchJson) {
             for (let entry of entries) {
                 navWidth = entry.target.style.width;
                 sessionStorage.setItem('navWidth', navWidth);
-                console.log(`Resized nav - width: ${navWidth}`);
             }
         });
 
