@@ -15,6 +15,7 @@ internal enum class SketchStatus {
     HIDDEN,
     COMPLETE,
     PARTIAL,
+    BROKEN,
 }
 
 @Serializable
@@ -45,6 +46,7 @@ internal data class SketchData(
 }
 
 internal val sketches = listOf(
+    /* BASICS */
     SketchData(
         navTitle = "Drawing Basics",
         title = "Drawing circles, rectangles and lines",
@@ -62,6 +64,7 @@ internal val sketches = listOf(
         status = SketchStatus.PARTIAL,
         comment = "Bug: Colors are not displaying correctly",
     ),
+    /* EASING */
     SketchData(
         navTitle = "Easings",
         title = "ORX Easing",
@@ -71,6 +74,7 @@ internal val sketches = listOf(
         status = SketchStatus.PARTIAL,
         comment = "Text labelling is not implemented",
     ),
+    /* MATH */
     SketchData(
         navTitle = "Linear Range 2",
         title = "ORX Math Linear Range",

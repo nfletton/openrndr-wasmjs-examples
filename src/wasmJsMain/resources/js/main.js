@@ -1,8 +1,11 @@
 export function initUI(sketchJson) {
-    let nav;
     let links;
     let activeLink = null;
-    const sidebar = document.getElementById('sidebar');
+    const defaultNavWidth = '240px';
+    let navWidth = defaultNavWidth;
+    let navHidden = 'true';
+
+    const nav = document.getElementById('sidebar');
 
     function setNavGroupOpenState(targetGroup) {
         let groups = nav.querySelectorAll('details.group')
@@ -39,16 +42,7 @@ export function initUI(sketchJson) {
         activeLink.click()
     }
 
-    function debounce(func, delay = 100) {
-        let timer;
-        return function (...args) {
-            clearTimeout(timer);
-            console.log('debounce');
-            timer = setTimeout(() => func.apply(this, args), delay);
-        };
-    }
-
-    function displayNavigationLinks(sketchData) {
+    function initNavLinks(sketchData) {
         const nav = document.createElement('div');
         nav.className = 'groups';
         nav.setAttribute('role', 'tree');
@@ -80,7 +74,8 @@ export function initUI(sketchJson) {
                     event.preventDefault()
                     console.log(`clicked on ${sketch['navTitle']}`);
                     sessionStorage.setItem('funcId', sketch['funcId']);
-                    sessionStorage.setItem('sidebar', getComputedStyle(sidebar).width);
+                    sessionStorage.setItem('navWidth', navWidth);
+                    sessionStorage.setItem('navHidden',navHidden);
                     sessionStorage.setItem('codeLink', sketch['codeLink']);
                     sessionStorage.setItem('docLink', sketch['docLink']);
                     sessionStorage.setItem('title', sketch['title']);
@@ -97,24 +92,34 @@ export function initUI(sketchJson) {
 
         });
 
-        const sidebarWidth = sessionStorage.getItem('sidebar');
-        if (sidebarWidth) {
-            if (sidebarWidth === '0px') {
-                document.body.classList.add('nav-collapsed');
-            } else {
-                if (sidebarWidth.endsWith('px')) {
-                    sidebar.style.width = sidebarWidth;
-                }
-            }
-        }
         return nav;
+    }
+
+    function initNavStatus() {
+        navWidth = sessionStorage.getItem('navWidth') ?? defaultNavWidth;
+        navHidden = sessionStorage.getItem('navHidden') ?? 'false';
+
+        nav.style.width = navWidth;
+        nav.setAttribute('aria-hidden', navHidden);
+
+        if (navHidden === 'true') {
+            document.body.classList.add('nav-collapsed');
+            nav.classList.remove('visible');
+        } else {
+            document.body.classList.remove('nav-collapsed');
+            nav.classList.add('visible');
+        }
+
+        sessionStorage.setItem('navWidth', navWidth);
+        sessionStorage.setItem('navHidden',navHidden);
     }
 
     function init() {
         const sketchData = JSON.parse(sketchJson)
 
-        nav = document.querySelector('.nav');
-        nav.appendChild(displayNavigationLinks(sketchData))
+        nav.appendChild(initNavLinks(sketchData))
+
+        initNavStatus()
 
         links = Array.from(nav.querySelectorAll('a[href]'));
 
@@ -133,19 +138,34 @@ export function initUI(sketchJson) {
 
         // Sidebar toggle
         btnToggle?.addEventListener('click', () => {
-            const collapsed = !document.body.classList.contains('nav-collapsed');
             // If about to collapse, move focus away from nav to safer target
-            if (collapsed && document.activeElement && nav.contains(document.activeElement)) {
-                btnToggle.focus();
+            // if (collapsed && document.activeElement && nav.contains(document.activeElement)) {
+            //     btnToggle.focus();
+            // }
+            navHidden = navHidden === 'true' ? 'false' : 'true';
+            if (navHidden === 'true') {
+                document.body.classList.add('nav-collapsed');
+                nav.classList.remove('visible');
+            } else {
+                document.body.classList.remove('nav-collapsed');
+                nav.classList.add('visible');
             }
-            document.body.classList.toggle('nav-collapsed', collapsed);
-            btnToggle.setAttribute('aria-pressed', String(collapsed));
-            nav.setAttribute('aria-hidden', String(collapsed));
-            // Update button title/icon for clarity
-            btnToggle.title = collapsed ? 'Expand sidebar' : 'Collapse sidebar';
+            nav.setAttribute('aria-hidden',navHidden);
+            btnToggle.title = Boolean(navHidden) ? 'Expand sidebar' : 'Collapse sidebar';
             btnToggle.setAttribute('aria-label', btnToggle.title);
-            sessionStorage.setItem('sidebar', getComputedStyle(sidebar).width);
+            sessionStorage.setItem('navWidth', navWidth);
+            sessionStorage.setItem('navHidden', navHidden);
         });
+
+        const resizeObserver = new ResizeObserver(entries => {
+            for (let entry of entries) {
+                navWidth = entry.target.style.width;
+                sessionStorage.setItem('navWidth', navWidth);
+                console.log(`Resized nav - width: ${navWidth}`);
+            }
+        });
+
+        resizeObserver.observe(nav);
 
         const codeLink = sessionStorage.getItem('codeLink');
         if (codeLink) {
@@ -185,35 +205,6 @@ export function initUI(sketchJson) {
             if (commentEl) {
                 commentEl.textContent = comment;
             }
-        }
-
-        // Canvas sizing: make the canvas fill the right panel and resize with window/panel
-        let contentEl = document.querySelector('.content');
-        let canvas = document.getElementById('openrndr-canvas');
-        if (contentEl && canvas instanceof HTMLCanvasElement) {
-            const resizeNow = () => {
-                const rect = contentEl.getBoundingClientRect();
-                let dpr = Math.max(1, window.devicePixelRatio || 1);
-                // Set the canvas drawing buffer size
-                const w = Math.max(0, Math.floor(rect.width * dpr));
-                const h = Math.max(0, Math.floor(rect.height * dpr));
-                if (canvas.width !== w || canvas.height !== h) {
-                    canvas.width = w;
-                    canvas.height = h;
-                }
-            };
-
-            const resize = () => {
-                // schedule outside of observer's delivery to avoid feedback loop
-                requestAnimationFrame(resizeNow);
-            };
-
-
-            const ro = new ResizeObserver(() => {
-                resize();
-            });
-            ro.observe(contentEl);
-            resizeNow()
         }
     }
 

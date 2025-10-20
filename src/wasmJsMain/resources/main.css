@@ -1,5 +1,5 @@
 :root {
-    color-scheme: light dark;
+    color-scheme: dark;
     --bg: light-dark(#ffffff, #0f1116);
     --text: light-dark(#0f1116, #e6e6e6);
     --muted: light-dark(#f1f3f5, #1a1d24);
@@ -33,9 +33,9 @@ body {
 
 /* Left panel (navigation) */
 .nav {
+    display: none;
     box-sizing: border-box;
-    width: 280px;             /* initial width */
-    min-width: 160px;         /* don't get too small */
+    min-width: 240px;         /* don't get too small */
     max-width: 70vw;          /* don't cover everything */
     resize: horizontal;       /* allow horizontal resize via native handle */
     overflow: auto;           /* scroll in both directions as needed */
@@ -44,18 +44,15 @@ body {
     padding: 12px;
 }
 
+.nav.visible {
+    display: block;
+}
+
 .nav h1 {
     font-size: 14px;
     margin: 0 0 10px 0;
     letter-spacing: 0.02em;
     text-transform: uppercase;
-}
-
-.nav .hint {
-    font-size: 12px;
-    color: #6b7280;
-    margin: 0 0 12px 0;
-    max-width: 520px; /* allow horizontal scroll demo when sidebar shrinks */
 }
 
 .nav ul {
@@ -122,6 +119,8 @@ body {
 .content canvas {
     display: block;
     touch-action: none; /* prevent touch scrolling/zooming on canvas */
+    width: 100%;
+    height: 100%;
 }
 
 /* Small top bar for context */
@@ -177,6 +176,7 @@ header.topbar {
 
 /* Collapsed sidebar state */
 body.nav-collapsed .nav {
+    display: none !important;
     width: 0 !important;
     min-width: 0 !important;
     max-width: 0 !important;
@@ -184,13 +184,15 @@ body.nav-collapsed .nav {
     border-right: 0 !important;
     overflow: hidden !important;
 }
-body.nav-collapsed .nav :is(h1, .hint, .groups) {
+
+body.nav-collapsed .nav :is(h1, .groups) {
     display: none !important; /* hide children so they are not focusable */
 }
 
 .wrap {
     display: contents; /* keep semantics without extra box */
 }
+
 /* Status bar */
 .statusbar {
     display: grid;
@@ -211,17 +213,4 @@ body.nav-collapsed .nav :is(h1, .hint, .groups) {
     transform: translateX(-50%);
     display: inline-flex;
     gap: 8px;
-}
-
-/* Hide any empty status panels so they don't occupy space */
-.statusbar .panel:empty {
-    display: none;
-}
-body.nav-collapsed .statusbar {
-    height: 0 !important;
-    min-height: 0 !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-    border-top: 0 !important;
-    overflow: hidden !important;
 }
