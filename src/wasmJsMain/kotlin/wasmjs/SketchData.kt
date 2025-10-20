@@ -5,6 +5,7 @@ import rbf.RbfInterpolation01
 import rbf.RbfInterpolation02
 import wasmjs.openrndr.DemoBasicDraw
 import wasmjs.openrndr.DemoColor
+import wasmjs.openrndr.DemoColorModels
 import wasmjs.orxeasing.DemoEasings01
 import wasmjs.orxmath.DemoLeastSquares01
 import wasmjs.orxmath.DemoLeastSquares02
@@ -60,9 +61,18 @@ internal val sketches = listOf(
         title = "Core color functionality",
         function = ::DemoColor,
         pkg = Package.OPENRNDR,
-        docLink = "${GUIDE_ROOT}drawing/color.html",
+        docLink = "${GUIDE_ROOT}drawing/color.html#color-operations",
         status = SketchStatus.PARTIAL,
-        comment = "Bug: Colors are not displaying correctly",
+        comment = "Bug: Colors are not rendering correctly",
+    ),
+    SketchData(
+        navTitle = "Color Models",
+        title = "Alternative color models",
+        function = ::DemoColorModels,
+        pkg = Package.OPENRNDR,
+        docLink = "${GUIDE_ROOT}drawing/color.html#alternative-color-models",
+        status = SketchStatus.PARTIAL,
+        comment = "Bug: Colors are not rendering correctly",
     ),
     /* EASING */
     SketchData(
