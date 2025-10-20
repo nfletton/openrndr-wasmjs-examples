@@ -127,7 +127,12 @@ export function initUI(sketchJson) {
     }
 
     function init() {
-        const sketchData = JSON.parse(sketchJson)
+        let sketchData = {};
+        try {
+            sketchData = JSON.parse(sketchJson)
+        } catch (e) {
+            console.error('Failed to parse sketch data', e);
+        }
 
         nav.appendChild(initNavLinks(sketchData))
 
