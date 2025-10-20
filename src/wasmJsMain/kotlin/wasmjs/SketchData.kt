@@ -6,6 +6,7 @@ import rbf.RbfInterpolation02
 import wasmjs.openrndr.DemoBasicDraw
 import wasmjs.openrndr.DemoColor
 import wasmjs.openrndr.DemoColorModels
+import wasmjs.orxcompositor.DemoAside01
 import wasmjs.orxeasing.DemoEasings01
 import wasmjs.orxmath.DemoLeastSquares01
 import wasmjs.orxmath.DemoLeastSquares02
@@ -22,6 +23,7 @@ internal enum class SketchStatus {
 @Serializable
 internal enum class Package(val displayName: String) {
     OPENRNDR("OPENRNDR"),
+    ORXCOMPOSITOR("ORX Compositor"),
     ORXEASING("ORX Easing"),
     ORXMATH("ORX Math"),
 }
@@ -63,7 +65,7 @@ internal val sketches = listOf(
         pkg = Package.OPENRNDR,
         docLink = "${GUIDE_ROOT}drawing/color.html#color-operations",
         status = SketchStatus.PARTIAL,
-        comment = "Bug: Colors are not rendering correctly",
+        comment = "BUG: Colors are not rendering correctly",
     ),
     SketchData(
         navTitle = "Color Models",
@@ -72,7 +74,17 @@ internal val sketches = listOf(
         pkg = Package.OPENRNDR,
         docLink = "${GUIDE_ROOT}drawing/color.html#alternative-color-models",
         status = SketchStatus.PARTIAL,
-        comment = "Bug: Colors are not rendering correctly",
+        comment = "BUG: Colors are not rendering correctly",
+    ),
+    /* COMPOSITOR */
+    SketchData(
+        navTitle = "Compositor aside",
+        title = "Demonstrates how to reuse a layer in the Compositor by using aside { }",
+        function = ::DemoAside01,
+        pkg = Package.ORXCOMPOSITOR,
+        docLink = "https://github.com/openrndr/orx/tree/master/orx-compositor#demoaside01",
+        status = SketchStatus.COMPLETE,
+        comment = "ISSUES: Comparable to JVM version on ipad. Grainier and darker on 1080p screen.",
     ),
     /* EASING */
     SketchData(
@@ -105,7 +117,7 @@ internal val sketches = listOf(
     ),
     SketchData(
         navTitle = "Least Squares 1",
-        title = "Uses method to fit a regression line to noisy points",
+        title = "Least squares method to fit a regression line to noisy points",
         function = ::DemoLeastSquares01,
         pkg = Package.ORXMATH,
         docLink = "https://github.com/openrndr/orx/tree/master/orx-math#matrixdemoleastsquares01",
@@ -114,7 +126,7 @@ internal val sketches = listOf(
     ),
     SketchData(
         navTitle = "Least Squares 2",
-        title = "Uses method to fit a cubic bezier to noisy points",
+        title = "Least squares method to fit a cubic bezier to noisy points",
         function = ::DemoLeastSquares02,
         pkg = Package.ORXMATH,
         docLink = "https://github.com/openrndr/orx/tree/master/orx-math#matrixdemoleastsquares02",

@@ -12,10 +12,10 @@ plugins {
 val orxFeatures = setOf<String>(
     "orx-camera",
     "orx-color",
-//    "orx-compositor",
+    "orx-compositor",
     "orx-composition",
     "orx-easing",
-//    "orx-fx",
+    "orx-fx",
 //    "orx-gradient-descent",
     "orx-image-fit",
     "orx-math",
