@@ -9,7 +9,7 @@ export function initUI(sketchJson) {
     const nav = document.getElementById('sidebar');
 
     function setNavGroupOpenState(targetGroup) {
-        let groups = nav.querySelectorAll('nav details.group')
+        const groups = nav.querySelectorAll('nav details.group')
         groups.forEach(g => {
             const shouldOpen = g === targetGroup;
             g.open = shouldOpen;
@@ -18,10 +18,10 @@ export function initUI(sketchJson) {
     }
 
     function setActiveNavItem(activeNavId) {
-        let newActiveNav = nav.querySelector(`#${activeNavId}`);
+        const newActiveNav = nav.querySelector(`#${activeNavId}`);
         if (!newActiveNav) return;
 
-        let currentActiveNav = nav.querySelector('nav a.active');
+        const currentActiveNav = nav.querySelector('nav a.active');
         if (currentActiveNav) {
             currentActiveNav.classList.remove('active');
             currentActiveNav.setAttribute('aria-current', 'false');
@@ -50,7 +50,7 @@ export function initUI(sketchJson) {
 
         let sketchIndex = 0
         Object.keys(sketchData).forEach(groupName => {
-            let groupData = sketchData[groupName];
+            const groupData = sketchData[groupName];
             const details = document.createElement('details');
             details.className = 'group';
             details.setAttribute('role', 'treeitem');
@@ -140,11 +140,11 @@ export function initUI(sketchJson) {
 
         links = Array.from(nav.querySelectorAll('a[href]'));
 
-        let btnPrev = document.getElementById('navPrev');
-        let btnNext = document.getElementById('navNext');
-        let btnToggle = document.getElementById('toggleSidebar');
+        const btnPrev = document.getElementById('navPrev');
+        const btnNext = document.getElementById('navNext');
+        const btnToggle = document.getElementById('toggleSidebar');
 
-        let activeNavId = sessionStorage.getItem('funcId');
+        const activeNavId = sessionStorage.getItem('funcId');
 
         if (activeNavId) activeLink = setActiveNavItem(activeNavId);
 
