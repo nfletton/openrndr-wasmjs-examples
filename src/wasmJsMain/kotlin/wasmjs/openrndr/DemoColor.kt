@@ -2,7 +2,12 @@ package wasmjs.openrndr
 
 import org.openrndr.application
 import org.openrndr.color.ColorRGBa
+import org.openrndr.color.mix
 import org.openrndr.draw.LineCap
+import org.openrndr.extra.color.presets.DARK_GRAY
+import org.openrndr.extra.color.presets.DARK_SLATE_GRAY
+import org.openrndr.extra.color.presets.LIGHT_GRAY
+import org.openrndr.extra.shapes.primitives.grid
 import org.openrndr.math.Vector2
 import org.openrndr.shape.Rectangle
 import kotlin.random.Random
@@ -10,139 +15,71 @@ import kotlin.random.Random
 
 fun DemoColor() {
     application {
-        configure {
-            title = "OPENRNDR - Color"
-            windowResizable = true
-        }
-
         program {
+            val columns = 1
+            val rows = 3
+            val margin = 40.0
+            val gutter = 40.0
+            fun createGrid() = drawer.bounds.grid(
+                columns, rows, margin, margin, gutter, gutter * 2
+            )
+
+            var grid: List<List<Rectangle>> = createGrid()
+            window.sized.listen {
+                grid = createGrid()
+            }
+
             extend {
-                val columns = 3
-                val rows = 6
-                val margin = 20.0
-                val cellWidth = (width - margin * (columns + 1)) / columns
-                val cellHeight = (height - margin * (rows + 1)) / rows
+                val cellWidth = grid[0][0].width
+                val cellHeight = grid[0][0].height
 
-                val cells = buildList {
-                    repeat(columns) { columnIndex ->
-                        add(buildList {
-                            repeat(rows) { rowIndex ->
-                                add(
-                                    Rectangle(
-                                        Vector2(
-                                            columnIndex * cellWidth + (columnIndex + 1) * margin,
-                                            rowIndex * cellHeight + (rowIndex + 1) * margin
-                                        ), cellWidth, cellHeight
-                                    )
-                                )
-                            }
-                        })
-                    }
-                }
-
-
-                val circleRadius = if (cellWidth < cellHeight) cellWidth / 2.0 else cellHeight / 2.0
-                val rectWidth = cells[0][0].width
-                val rectHeight = cells[0][0].height
-
-                drawer.clear(ColorRGBa.PINK)
+                drawer.clear(ColorRGBa.BLACK)
 
                 /* COLORS */
                 // shades
                 val baseColor = ColorRGBa.PINK
                 drawer.stroke = null
-                val left = cells[0][0].x
-                val top = cells[0][0].y
-                val width = cells[2][0].x + cells[2][0].width - left
-                val height = top + cells[0][0].height / 2
+                var left = grid[0][0].x
+                var top = grid[0][0].y
                 val steps = 16
+                var width = cellWidth / steps
+                var height = cellHeight / 2
                 // -- draw 16 darker shades of base color
-                for (i in 0..< steps) {
+                for (i in 0..<steps) {
                     drawer.fill = baseColor.shade(i / (steps - 1.0))
-                    drawer.rectangle(left + (width / steps * 1.0) * i, top, (width / steps * 1.0), height)
+                    drawer.rectangle(left + width * i, top, width, height)
                 }
                 // -- draw 16 lighter shades of base color
-                for (i in 0..< steps) {
+                top += height
+                for (i in 0..<steps) {
                     drawer.fill = baseColor.shade(1.0 + i / (steps - 1.0))
-                    drawer.rectangle(left + (width / steps * 1.0) * i, top + height, (width / steps * 1.0), height)
+                    drawer.rectangle(left + width * i, top, width, height)
                 }
 
-                /* RECTANGLES */
-/*
-                // -- draw rectangle with white fill and black stroke
-                drawer.fill = ColorRGBa.WHITE
-                drawer.stroke = ColorRGBa.BLACK
-                drawer.strokeWeight = 1.0
-                drawer.rectangle(cells[0][1].corner, rectWidth, rectHeight)
+                drawer.fill = ColorRGBa.LIGHT_GRAY
+                height = cellHeight * 2 / 3
+                drawer.rectangle(grid[1][0].corner, cellWidth, height)
 
-                // -- draw rectangle without fill, but with black stroke
-                drawer.fill = null
-                drawer.stroke = ColorRGBa.BLACK
-                drawer.strokeWeight = 1.0
-                drawer.rectangle(cells[1][1].corner, rectWidth, rectHeight)
+                // -- draw 16 darker shades of pink
+                top = grid[1][0].y + cellHeight * 1 / 3
+                left = grid[1][0].x
 
-                // -- draw a rectangle with white fill, but without stroke
-                drawer.fill = ColorRGBa.WHITE
-                drawer.stroke = null
-                drawer.strokeWeight = 1.0
-                drawer.rectangle(cells[2][1].corner, rectWidth, rectHeight)
-*/
-
-                /* LINES */
-                // -- setup line appearance
-                drawer.stroke = ColorRGBa.BLACK
-                drawer.strokeWeight = 5.0
-                drawer.lineCap = LineCap.ROUND
-
-                drawer.lineSegment(
-                    cells[0][2].center - Vector2(0.0, cellHeight / 3),
-                    cells[2][2].center - Vector2(0.0, cellHeight / 3)
-                )
-
-                drawer.lineCap = LineCap.BUTT
-                drawer.lineSegment(cells[0][2].center, cells[2][2].center)
-
-                drawer.lineCap = LineCap.SQUARE
-                drawer.lineSegment(
-                    cells[0][2].center + Vector2(0.0, cellHeight / 3),
-                    cells[2][2].center + Vector2(0.0, cellHeight / 3)
-                )
-
-                /* LINE STRIP */
-                // -- setup line appearance
-                drawer.stroke = ColorRGBa.BLACK
-                drawer.strokeWeight = 5.0
-                drawer.lineCap = LineCap.ROUND
-
-                var points = listOf(
-                    cells[0][3].corner,
-                    cells[1][3].center + Vector2(0.0, cellHeight / 2.0),
-                    cells[2][3].corner + Vector2(cellWidth, 0.0),
-                )
-                drawer.lineStrip(points)
-
-                /* LINE LOOP */
-                drawer.lineCap = LineCap.BUTT
-                drawer.strokeWeight = 2.0
-
-                drawer.lineLoop(points.map { it + Vector2(0.0, cellHeight + margin) })
-
-                /* POINTS */
-                val random = Random(1234)
-                val nPoints = 2000
-                points = buildList {
-                    val topLeftX = cells[0][5].x
-                    val topLeftY = cells[0][5].y
-                    val topRightX = topLeftX + columns * cellWidth + (columns - 1) * margin
-                    val bottomLeftY = topLeftY + cellHeight
-                    repeat(nPoints) {
-                        val x = random.nextDouble(topLeftX, topRightX)
-                        val y = random.nextDouble(topLeftY, bottomLeftY)
-                        add(Vector2(x, y))
-                    }
+                for (i in 0..<steps) {
+                    drawer.fill = baseColor.opacify(i / 15.0)
+                    drawer.rectangle(left + width * i, top, width, height)
                 }
-                drawer.fill = ColorRGBa.WHITE
-                drawer.points(points)
+
+                // -- draw 16 color mixes
+                val leftColor = ColorRGBa.PINK
+                val rightColor = ColorRGBa.fromHex(0xFC3549)
+                width = cellWidth / steps
+                top = grid[2][0].y
+                height = cellHeight
+                for (i in 0..<steps) {
+                    drawer.fill = mix(leftColor, rightColor, i / 15.0)
+                    drawer.rectangle(left + width * i, top, width, height)
+                }
+
             }
         }
     }
