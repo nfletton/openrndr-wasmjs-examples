@@ -164,8 +164,9 @@ export function initUI(sketchJson) {
                 nav.classList.add('visible');
             }
             nav.setAttribute('aria-hidden',navHidden);
-            btnToggle.title = Boolean(navHidden) ? 'Expand sidebar' : 'Collapse sidebar';
+            btnToggle.title = (navHidden === 'true') ? 'Expand sidebar' : 'Collapse sidebar';
             btnToggle.setAttribute('aria-label', btnToggle.title);
+            btnToggle.setAttribute('title', btnToggle.title);
             sessionStorage.setItem('navHidden', navHidden);
         });
 
