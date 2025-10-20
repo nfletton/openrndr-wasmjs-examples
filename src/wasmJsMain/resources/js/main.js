@@ -9,7 +9,7 @@ export function initUI(sketchJson) {
     const nav = document.getElementById('sidebar');
 
     function setNavGroupOpenState(targetGroup) {
-        let groups = nav.querySelectorAll('details.group')
+        let groups = nav.querySelectorAll('nav details.group')
         groups.forEach(g => {
             const shouldOpen = g === targetGroup;
             g.open = shouldOpen;
@@ -21,14 +21,14 @@ export function initUI(sketchJson) {
         let newActiveNav = nav.querySelector(`#${activeNavId}`);
         if (!newActiveNav) return;
 
-        let currentActiveNav = nav.querySelector('.active');
+        let currentActiveNav = nav.querySelector('nav a.active');
         if (currentActiveNav) {
             currentActiveNav.classList.remove('active');
             currentActiveNav.setAttribute('aria-current', 'false');
         }
         newActiveNav.classList.add('active');
         newActiveNav.setAttribute('aria-current', 'page');
-        const group = newActiveNav.closest('details.group');
+        const group = newActiveNav.closest('nav details.group');
         if (group) setNavGroupOpenState(group);
         return newActiveNav
     }
@@ -150,10 +150,6 @@ export function initUI(sketchJson) {
 
         // Sidebar toggle
         btnToggle?.addEventListener('click', () => {
-            // If about to collapse, move focus away from nav to safer target
-            // if (collapsed && document.activeElement && nav.contains(document.activeElement)) {
-            //     btnToggle.focus();
-            // }
             navHidden = navHidden === 'true' ? 'false' : 'true';
             if (navHidden === 'true') {
                 document.body.classList.add('nav-collapsed');
