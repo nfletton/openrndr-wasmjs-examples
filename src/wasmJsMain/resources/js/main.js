@@ -102,9 +102,18 @@ export function initUI(sketchJson) {
     }
 
     function initNavStatus() {
-        navWidth = sessionStorage.getItem('navWidth') ?? defaultNavWidth;
-        navHidden = sessionStorage.getItem('navHidden') ?? 'false';
+        const newNavWidth = sessionStorage.getItem('navWidth') ?? defaultNavWidth;
+        const newNavHidden = sessionStorage.getItem('navHidden') ?? 'false';
 
+        if (newNavWidth !== navWidth) {
+            navWidth = newNavWidth;
+            sessionStorage.setItem('navWidth', navWidth);
+        }
+
+        if (newNavHidden !== navHidden) {
+            navHidden = newNavHidden;
+            sessionStorage.setItem('navHidden', navHidden);
+        }
         nav.style.width = navWidth;
         nav.setAttribute('aria-hidden', navHidden);
 
@@ -115,9 +124,6 @@ export function initUI(sketchJson) {
             document.body.classList.remove('nav-collapsed');
             nav.classList.add('visible');
         }
-
-        sessionStorage.setItem('navWidth', navWidth);
-        sessionStorage.setItem('navHidden',navHidden);
     }
 
     function init() {
@@ -159,7 +165,6 @@ export function initUI(sketchJson) {
             nav.setAttribute('aria-hidden',navHidden);
             btnToggle.title = Boolean(navHidden) ? 'Expand sidebar' : 'Collapse sidebar';
             btnToggle.setAttribute('aria-label', btnToggle.title);
-            sessionStorage.setItem('navWidth', navWidth);
             sessionStorage.setItem('navHidden', navHidden);
         });
 
