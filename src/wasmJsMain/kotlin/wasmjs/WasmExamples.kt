@@ -23,7 +23,7 @@ private data class SketchDto(
 private val visibleSketches: List<SketchData> by lazy {
     sketches.asSequence()
         .filter { it.status != SketchStatus.HIDDEN }
-        .sortedWith(compareBy<SketchData> { it.pkg.ordinal })
+        .sortedWith(compareBy { it.pkg.ordinal })
         .toList()
 }
 
@@ -60,6 +60,6 @@ fun runSketch(funcId: String) {
 
 fun main() {
     initUI(sketchesJson)
-    val activeSketch = sessionStorage.getItem("funcId");
-    if (activeSketch != null) runSketch(activeSketch);
+    val activeSketch = sessionStorage.getItem("funcId")
+    if (activeSketch != null) runSketch(activeSketch)
 }

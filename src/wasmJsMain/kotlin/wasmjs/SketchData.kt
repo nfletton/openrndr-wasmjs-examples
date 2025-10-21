@@ -1,11 +1,14 @@
 package wasmjs
 
 import kotlinx.serialization.Serializable
-import rbf.RbfInterpolation01
-import rbf.RbfInterpolation02
 import wasmjs.openrndr.DemoBasicDraw
 import wasmjs.openrndr.DemoColor
 import wasmjs.openrndr.DemoColorModels
+import wasmjs.orxcomposition.DemoCompositionDrawer01
+import wasmjs.orxcomposition.DemoCompositionDrawer02
+import wasmjs.orxcomposition.DemoCompositionDrawer03
+import wasmjs.orxcomposition.DemoCompositionDrawer04
+import wasmjs.orxcomposition.DemoCompositionDrawer05
 import wasmjs.orxcompositor.DemoAside01
 import wasmjs.orxcompositor.DemoCompositor01
 import wasmjs.orxcompositor.DemoCompositor02
@@ -14,6 +17,8 @@ import wasmjs.orxmath.DemoLeastSquares01
 import wasmjs.orxmath.DemoLeastSquares02
 import wasmjs.orxmath.DemoLinearRange02
 import wasmjs.orxmath.DemoLinearRange03
+import wasmjs.orxmath.RbfInterpolation01
+import wasmjs.orxmath.RbfInterpolation02
 
 internal enum class SketchStatus {
     HIDDEN,
@@ -25,6 +30,7 @@ internal enum class SketchStatus {
 @Serializable
 internal enum class Package(val displayName: String) {
     OPENRNDR("OPENRNDR"),
+    ORXCOMPOSITION("ORX Composition"),
     ORXCOMPOSITOR("ORX Compositor"),
     ORXEASING("ORX Easing"),
     ORXMATH("ORX Math"),
@@ -47,7 +53,7 @@ internal data class SketchData(
 
     val funcId: String = "$pkg-${funcName}".lowercase()
 
-    val codeLink: String = "$EXAMPLES_ROOT/wasmjs/${pkg.toString().lowercase()}/${funcName}.kt";
+    val codeLink: String = "$EXAMPLES_ROOT/wasmjs/${pkg.toString().lowercase()}/${funcName}.kt"
 }
 
 internal val sketches = listOf(
@@ -77,6 +83,52 @@ internal val sketches = listOf(
         docLink = "${GUIDE_ROOT}drawing/color.html#alternative-color-models",
         status = SketchStatus.PARTIAL,
         comment = "BUG: Colors are not rendering correctly",
+    ),
+    /* COMPOSITION */
+    SketchData(
+        navTitle = "Basic Composition",
+        title = "Demonstrates basic composition features",
+        function = ::DemoCompositionDrawer01,
+        pkg = Package.ORXCOMPOSITION,
+        docLink = "https://github.com/openrndr/orx/tree/master/orx-composition#democompositiondrawer01",
+        status = SketchStatus.HIDDEN,
+        comment = "ISSUE: No SVG file save",
+    ),
+    SketchData(
+        navTitle = "ClipMode 1",
+        title = "Using ClipMode.REVERSE_DIFFERENCE to clip shapes",
+        function = ::DemoCompositionDrawer02,
+        pkg = Package.ORXCOMPOSITION,
+        docLink = "https://github.com/openrndr/orx/tree/master/orx-composition#democompositiondrawer02",
+        status = SketchStatus.HIDDEN,
+        comment = "",
+    ),
+    SketchData(
+        navTitle = "ClipMode 2",
+        title = "Using ClipMode.REVERSE_DIFFERENCE to clip 3 shapes",
+        function = ::DemoCompositionDrawer03,
+        pkg = Package.ORXCOMPOSITION,
+        docLink = "https://github.com/openrndr/orx/tree/master/orx-composition#democompositiondrawer03",
+        status = SketchStatus.HIDDEN,
+        comment = "",
+    ),
+    SketchData(
+        navTitle = "Mouse Interaction",
+        title = "Demonstrates how to add content and clear an existing Composition",
+        function = ::DemoCompositionDrawer04,
+        pkg = Package.ORXCOMPOSITION,
+        docLink = "https://github.com/openrndr/orx/tree/master/orx-composition#democompositiondrawer04",
+        status = SketchStatus.PARTIAL,
+        comment = "BUG: Mouse position again. Background can go white after right click and drag.",
+    ),
+    SketchData(
+        navTitle = "Group",
+        title = "Create a composition with a group and add XML attributes",
+        function = ::DemoCompositionDrawer05,
+        pkg = Package.ORXCOMPOSITION,
+        docLink = "https://github.com/openrndr/orx/tree/master/orx-composition#democompositiondrawer05",
+        status = SketchStatus.HIDDEN,
+        comment = "BUG: Mouse position agan. Background can go white after right click and drag.",
     ),
     /* COMPOSITOR */
     SketchData(
@@ -108,7 +160,7 @@ internal val sketches = listOf(
     ),
     /* EASING */
     SketchData(
-        navTitle = "Easings",
+        navTitle = "Easing Types",
         title = "ORX Easing",
         function = ::DemoEasings01,
         pkg = Package.ORXEASING,

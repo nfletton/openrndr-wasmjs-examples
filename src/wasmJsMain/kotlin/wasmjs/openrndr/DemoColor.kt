@@ -3,14 +3,9 @@ package wasmjs.openrndr
 import org.openrndr.application
 import org.openrndr.color.ColorRGBa
 import org.openrndr.color.mix
-import org.openrndr.draw.LineCap
-import org.openrndr.extra.color.presets.DARK_GRAY
-import org.openrndr.extra.color.presets.DARK_SLATE_GRAY
 import org.openrndr.extra.color.presets.LIGHT_GRAY
 import org.openrndr.extra.shapes.primitives.grid
-import org.openrndr.math.Vector2
 import org.openrndr.shape.Rectangle
-import kotlin.random.Random
 
 
 fun DemoColor() {
