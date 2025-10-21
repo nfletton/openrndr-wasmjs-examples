@@ -1,4 +1,4 @@
-package wasmJs
+package wasmjs
 
 import kotlinx.serialization.Serializable
 import rbf.RbfInterpolation01
@@ -7,6 +7,8 @@ import wasmjs.openrndr.DemoBasicDraw
 import wasmjs.openrndr.DemoColor
 import wasmjs.openrndr.DemoColorModels
 import wasmjs.orxcompositor.DemoAside01
+import wasmjs.orxcompositor.DemoCompositor01
+import wasmjs.orxcompositor.DemoCompositor02
 import wasmjs.orxeasing.DemoEasings01
 import wasmjs.orxmath.DemoLeastSquares01
 import wasmjs.orxmath.DemoLeastSquares02

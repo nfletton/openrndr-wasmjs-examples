@@ -6,9 +6,6 @@ import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
-import wasmJs.SketchData
-import wasmJs.SketchStatus
-import wasmJs.sketches
 import web.console.console
 import web.storage.sessionStorage
 
