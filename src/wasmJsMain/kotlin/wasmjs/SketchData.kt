@@ -80,13 +80,31 @@ internal val sketches = listOf(
     ),
     /* COMPOSITOR */
     SketchData(
-        navTitle = "Compositor aside",
+        navTitle = "Layer Reuse",
         title = "Demonstrates how to reuse a layer in the Compositor by using aside { }",
         function = ::DemoAside01,
         pkg = Package.ORXCOMPOSITOR,
         docLink = "https://github.com/openrndr/orx/tree/master/orx-compositor#demoaside01",
         status = SketchStatus.COMPLETE,
         comment = "ISSUES: Comparable to JVM version on ipad. Grainier and darker on 1080p screen.",
+    ),
+    SketchData(
+        navTitle = "Layered Blurs",
+        title = "Demonstrates using 3 layers of moving items with a different amount of blur",
+        function = ::DemoCompositor01,
+        pkg = Package.ORXCOMPOSITOR,
+        docLink = "https://github.com/openrndr/orx/tree/master/orx-compositor#democompositor01",
+        status = SketchStatus.COMPLETE,
+        comment = "",
+    ),
+    SketchData(
+        navTitle = "BufferMultisample",
+        title = "Demonstration of using BufferMultisample on a per layer basis.",
+        function = ::DemoCompositor02,
+        pkg = Package.ORXCOMPOSITOR,
+        docLink = "https://github.com/openrndr/orx/tree/master/orx-compositor#democompositor02",
+        status = SketchStatus.HIDDEN,
+        comment = "Bug: Nothing drawn",
     ),
     /* EASING */
     SketchData(
@@ -141,8 +159,8 @@ internal val sketches = listOf(
         function = ::RbfInterpolation01,
         pkg = Package.ORXMATH,
         docLink = "https://github.com/openrndr/orx/tree/master/orx-math#rbfrbfinterpolation01",
-        status = SketchStatus.COMPLETE,
-        comment = "",
+        status = SketchStatus.HIDDEN,
+        comment = "BUG: Blank screen",
     ),
     SketchData(
         navTitle = "RBF 2",
@@ -150,7 +168,7 @@ internal val sketches = listOf(
         function = ::RbfInterpolation02,
         pkg = Package.ORXMATH,
         docLink = "https://github.com/openrndr/orx/tree/master/orx-math#rbfrbfinterpolation02",
-        status = SketchStatus.COMPLETE,
-        comment = "",
+        status = SketchStatus.HIDDEN,
+        comment = "BUG: Mouse position off. Probably due to offset canvas. ",
     ),
 )
