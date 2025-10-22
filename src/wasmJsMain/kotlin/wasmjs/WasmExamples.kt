@@ -22,7 +22,7 @@ private data class SketchDto(
 
 private val visibleSketches: List<SketchData> by lazy {
     sketches.asSequence()
-        .filter { it.status != SketchStatus.HIDDEN }
+        .filter { it.status != SketchStatus.BROKEN && it.status != SketchStatus.HIDDEN}
         .sortedWith(compareBy { it.pkg.ordinal })
         .toList()
 }

@@ -22,7 +22,7 @@ import wasmjs.orxmath.RbfInterpolation02
 
 internal enum class SketchStatus {
     HIDDEN,
-    COMPLETE,
+    GOOD,
     PARTIAL,
     BROKEN,
 }
@@ -46,7 +46,7 @@ internal data class SketchData(
     val function: () -> Unit,
     val pkg: Package,
     val docLink: String,
-    val status: SketchStatus = SketchStatus.HIDDEN,
+    val status: SketchStatus = SketchStatus.BROKEN,
     val comment: String = "",
 ) {
     val funcName: String = function.toString().substringBefore("$")
@@ -64,7 +64,7 @@ internal val sketches = listOf(
         function = ::DemoBasicDraw,
         pkg = Package.OPENRNDR,
         docLink = "${GUIDE_ROOT}drawing/circlesRectanglesLines.html",
-        status = SketchStatus.COMPLETE,
+        status = SketchStatus.GOOD,
     ),
     SketchData(
         navTitle = "Color Basics",
@@ -91,7 +91,7 @@ internal val sketches = listOf(
         function = ::DemoCompositionDrawer01,
         pkg = Package.ORXCOMPOSITION,
         docLink = "https://github.com/openrndr/orx/tree/master/orx-composition#democompositiondrawer01",
-        status = SketchStatus.HIDDEN,
+        status = SketchStatus.GOOD,
         comment = "ISSUE: No SVG file save",
     ),
     SketchData(
@@ -100,7 +100,7 @@ internal val sketches = listOf(
         function = ::DemoCompositionDrawer02,
         pkg = Package.ORXCOMPOSITION,
         docLink = "https://github.com/openrndr/orx/tree/master/orx-composition#democompositiondrawer02",
-        status = SketchStatus.HIDDEN,
+        status = SketchStatus.GOOD,
         comment = "",
     ),
     SketchData(
@@ -109,7 +109,7 @@ internal val sketches = listOf(
         function = ::DemoCompositionDrawer03,
         pkg = Package.ORXCOMPOSITION,
         docLink = "https://github.com/openrndr/orx/tree/master/orx-composition#democompositiondrawer03",
-        status = SketchStatus.HIDDEN,
+        status = SketchStatus.BROKEN,
         comment = "",
     ),
     SketchData(
@@ -127,7 +127,7 @@ internal val sketches = listOf(
         function = ::DemoCompositionDrawer05,
         pkg = Package.ORXCOMPOSITION,
         docLink = "https://github.com/openrndr/orx/tree/master/orx-composition#democompositiondrawer05",
-        status = SketchStatus.HIDDEN,
+        status = SketchStatus.BROKEN,
         comment = "BUG: Mouse position agan. Background can go white after right click and drag.",
     ),
     /* COMPOSITOR */
@@ -137,7 +137,7 @@ internal val sketches = listOf(
         function = ::DemoAside01,
         pkg = Package.ORXCOMPOSITOR,
         docLink = "https://github.com/openrndr/orx/tree/master/orx-compositor#demoaside01",
-        status = SketchStatus.COMPLETE,
+        status = SketchStatus.GOOD,
         comment = "ISSUES: Comparable to JVM version on ipad. Grainier and darker on 1080p screen.",
     ),
     SketchData(
@@ -146,7 +146,7 @@ internal val sketches = listOf(
         function = ::DemoCompositor01,
         pkg = Package.ORXCOMPOSITOR,
         docLink = "https://github.com/openrndr/orx/tree/master/orx-compositor#democompositor01",
-        status = SketchStatus.COMPLETE,
+        status = SketchStatus.GOOD,
         comment = "",
     ),
     SketchData(
@@ -155,7 +155,7 @@ internal val sketches = listOf(
         function = ::DemoCompositor02,
         pkg = Package.ORXCOMPOSITOR,
         docLink = "https://github.com/openrndr/orx/tree/master/orx-compositor#democompositor02",
-        status = SketchStatus.HIDDEN,
+        status = SketchStatus.BROKEN,
         comment = "Bug: Nothing drawn",
     ),
     /* EASING */
@@ -175,7 +175,7 @@ internal val sketches = listOf(
         function = ::DemoLinearRange02,
         pkg = Package.ORXMATH,
         docLink = "https://github.com/openrndr/orx/tree/master/orx-math#linearrangedemolinearrange02",
-        status = SketchStatus.COMPLETE,
+        status = SketchStatus.GOOD,
         comment = "",
     ),
     SketchData(
@@ -184,7 +184,7 @@ internal val sketches = listOf(
         function = ::DemoLinearRange03,
         pkg = Package.ORXMATH,
         docLink = "https://github.com/openrndr/orx/tree/master/orx-math#linearrangedemolinearrange03",
-        status = SketchStatus.COMPLETE,
+        status = SketchStatus.GOOD,
         comment = "",
     ),
     SketchData(
@@ -193,7 +193,7 @@ internal val sketches = listOf(
         function = ::DemoLeastSquares01,
         pkg = Package.ORXMATH,
         docLink = "https://github.com/openrndr/orx/tree/master/orx-math#matrixdemoleastsquares01",
-        status = SketchStatus.COMPLETE,
+        status = SketchStatus.GOOD,
         comment = "",
     ),
     SketchData(
@@ -202,7 +202,7 @@ internal val sketches = listOf(
         function = ::DemoLeastSquares02,
         pkg = Package.ORXMATH,
         docLink = "https://github.com/openrndr/orx/tree/master/orx-math#matrixdemoleastsquares02",
-        status = SketchStatus.COMPLETE,
+        status = SketchStatus.GOOD,
         comment = "",
     ),
     SketchData(
@@ -211,7 +211,7 @@ internal val sketches = listOf(
         function = ::RbfInterpolation01,
         pkg = Package.ORXMATH,
         docLink = "https://github.com/openrndr/orx/tree/master/orx-math#rbfrbfinterpolation01",
-        status = SketchStatus.HIDDEN,
+        status = SketchStatus.BROKEN,
         comment = "BUG: Blank screen",
     ),
     SketchData(
@@ -220,7 +220,7 @@ internal val sketches = listOf(
         function = ::RbfInterpolation02,
         pkg = Package.ORXMATH,
         docLink = "https://github.com/openrndr/orx/tree/master/orx-math#rbfrbfinterpolation02",
-        status = SketchStatus.HIDDEN,
+        status = SketchStatus.BROKEN,
         comment = "BUG: Mouse position off. Probably due to offset canvas. ",
     ),
 )
