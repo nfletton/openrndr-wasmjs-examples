@@ -91,8 +91,8 @@ internal val sketches = listOf(
         function = ::DemoCompositionDrawer01,
         pkg = Package.ORXCOMPOSITION,
         docLink = "https://github.com/openrndr/orx/tree/master/orx-composition#democompositiondrawer01",
-        status = SketchStatus.GOOD,
-        comment = "ISSUE: No SVG file save",
+        status = SketchStatus.PARTIAL,
+        comment = "ISSUE: No SVG file save. orx-svg has Java dependencies",
     ),
     SketchData(
         navTitle = "ClipMode 1",
@@ -101,7 +101,6 @@ internal val sketches = listOf(
         pkg = Package.ORXCOMPOSITION,
         docLink = "https://github.com/openrndr/orx/tree/master/orx-composition#democompositiondrawer02",
         status = SketchStatus.GOOD,
-        comment = "",
     ),
     SketchData(
         navTitle = "ClipMode 2",
@@ -109,8 +108,7 @@ internal val sketches = listOf(
         function = ::DemoCompositionDrawer03,
         pkg = Package.ORXCOMPOSITION,
         docLink = "https://github.com/openrndr/orx/tree/master/orx-composition#democompositiondrawer03",
-        status = SketchStatus.BROKEN,
-        comment = "",
+        status = SketchStatus.GOOD,
     ),
     SketchData(
         navTitle = "Mouse Interaction",
@@ -118,17 +116,7 @@ internal val sketches = listOf(
         function = ::DemoCompositionDrawer04,
         pkg = Package.ORXCOMPOSITION,
         docLink = "https://github.com/openrndr/orx/tree/master/orx-composition#democompositiondrawer04",
-        status = SketchStatus.PARTIAL,
-        comment = "BUG: Mouse position again. Background can go white after right click and drag.",
-    ),
-    SketchData(
-        navTitle = "Group",
-        title = "Create a composition with a group and add XML attributes",
-        function = ::DemoCompositionDrawer05,
-        pkg = Package.ORXCOMPOSITION,
-        docLink = "https://github.com/openrndr/orx/tree/master/orx-composition#democompositiondrawer05",
-        status = SketchStatus.BROKEN,
-        comment = "BUG: Mouse position agan. Background can go white after right click and drag.",
+        status = SketchStatus.GOOD,
     ),
     /* COMPOSITOR */
     SketchData(
@@ -137,7 +125,7 @@ internal val sketches = listOf(
         function = ::DemoAside01,
         pkg = Package.ORXCOMPOSITOR,
         docLink = "https://github.com/openrndr/orx/tree/master/orx-compositor#demoaside01",
-        status = SketchStatus.GOOD,
+        status = SketchStatus.PARTIAL,
         comment = "ISSUES: Comparable to JVM version on ipad. Grainier and darker on 1080p screen.",
     ),
     SketchData(

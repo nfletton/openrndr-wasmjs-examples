@@ -8,6 +8,7 @@ import org.openrndr.extra.composition.draw
 import org.openrndr.extra.composition.drawComposition
 import org.openrndr.math.Polar
 import org.openrndr.math.Vector2
+import kotlin.math.min
 import kotlin.math.sin
 
 /**
@@ -44,11 +45,12 @@ fun DemoCompositionDrawer04() = application {
         val minSeparation = 10.0
 
         mouse.dragged.listen {
-            if(it.position.distanceTo(lastPosition) > minSeparation) {
+            if (it.position.distanceTo(lastPosition) > minSeparation) {
                 composition.draw {
                     fill = ColorRGBa.WHITE
                     // the drag speed affects the radius
-                    circle(it.position, 5.0 + it.dragDisplacement.length * 5.0)
+                    val radius = min(width / 6.0, 3.0 + it.dragDisplacement.length)
+                    circle(it.position, radius)
                 }
                 lastPosition = it.position
             }
