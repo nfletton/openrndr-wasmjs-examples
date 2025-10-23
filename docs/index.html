@@ -3,44 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>OPENRNDR</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
-    <link rel="stylesheet" href="main.css">
+    <meta http-equiv="refresh" content="0; url=https://wasm.zygal.com/">
 </head>
 <body>
-<header class="topbar" role="banner">
-    <div class="topbar-info" aria-label="Resource links">
-        <button id="code-btn" type="button" disabled>Code</button>
-        <button id="doc-btn" type="button" disabled>Documentation</button>
-    </div>
-    <div id="title" class="topbar-center" aria-label="Sketch title">
-    </div>
-    <div class="topbar-actions" role="toolbar" aria-label="Navigation controls">
-        <button id="toggleSidebar" type="button" aria-label="Collapse sidebar" title="Collapse sidebar">
-            ☰
-        </button>
-        <button id="navPrev" type="button" aria-label="Previous item" title="Previous">
-            ◀
-        </button>
-        <button id="navNext" type="button" aria-label="Next item" title="Next">
-            ▶
-        </button>
-    </div>
-</header>
-
-<div class="split" role="application"
-     aria-label="Split view with resizable navigation and content pane">
-    <nav id="sidebar" class="nav" aria-label="Pages navigation" aria-hidden="true" tabindex="0">
-    </nav>
-
-    <main class="content" aria-label="Content area">
-        <canvas id="openrndr-canvas" aria-label="Interactive canvas"></canvas>
-    </main>
-</div>
-
-<footer class="statusbar" role="contentinfo" aria-live="polite">
-    <div class="panel" id="comment"></div>
-</footer>
-
-<script src="wasmjsExamples.js"></script>
 </body>
 </html>
