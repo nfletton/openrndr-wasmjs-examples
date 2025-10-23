@@ -4,21 +4,17 @@ import kotlinx.serialization.Serializable
 import wasmjs.openrndr.DemoBasicDraw
 import wasmjs.openrndr.DemoColor
 import wasmjs.openrndr.DemoColorModels
+import wasmjs.orxcamera.DemoCamera2D01
+import wasmjs.orxcamera.DemoCamera2D02
 import wasmjs.orxcomposition.DemoCompositionDrawer01
 import wasmjs.orxcomposition.DemoCompositionDrawer02
 import wasmjs.orxcomposition.DemoCompositionDrawer03
 import wasmjs.orxcomposition.DemoCompositionDrawer04
-import wasmjs.orxcomposition.DemoCompositionDrawer05
 import wasmjs.orxcompositor.DemoAside01
 import wasmjs.orxcompositor.DemoCompositor01
 import wasmjs.orxcompositor.DemoCompositor02
 import wasmjs.orxeasing.DemoEasings01
-import wasmjs.orxmath.DemoLeastSquares01
-import wasmjs.orxmath.DemoLeastSquares02
-import wasmjs.orxmath.DemoLinearRange02
-import wasmjs.orxmath.DemoLinearRange03
-import wasmjs.orxmath.RbfInterpolation01
-import wasmjs.orxmath.RbfInterpolation02
+import wasmjs.orxmath.*
 
 internal enum class SketchStatus {
     HIDDEN,
@@ -30,6 +26,7 @@ internal enum class SketchStatus {
 @Serializable
 internal enum class Package(val displayName: String) {
     OPENRNDR("OPENRNDR"),
+    ORXCAMERA("ORX Camera"),
     ORXCOMPOSITION("ORX Composition"),
     ORXCOMPOSITOR("ORX Compositor"),
     ORXEASING("ORX Easing"),
@@ -84,6 +81,23 @@ internal val sketches = listOf(
         status = SketchStatus.PARTIAL,
         comment = "BUG: Colors are not rendering correctly",
     ),
+    /* CAMERA */
+    SketchData(
+        navTitle = "2D 1",
+        title = "Demonstrates 2D mouse panning and zooming",
+        function = ::DemoCamera2D01,
+        pkg = Package.ORXCAMERA,
+        docLink = "https://github.com/openrndr/orx/tree/master/orx-camera#democamera2d01",
+        status = SketchStatus.BROKEN,
+    ),
+    SketchData(
+        navTitle = "2D 2",
+        title = "Demonstrates 2D mouse panning and zooming with a custom camera",
+        function = ::DemoCamera2D02,
+        pkg = Package.ORXCAMERA,
+        docLink = "https://github.com/openrndr/orx/tree/master/orx-camera#democamera2d02",
+        status = SketchStatus.BROKEN,
+    ),
     /* COMPOSITION */
     SketchData(
         navTitle = "Basic Composition",
@@ -117,6 +131,7 @@ internal val sketches = listOf(
         pkg = Package.ORXCOMPOSITION,
         docLink = "https://github.com/openrndr/orx/tree/master/orx-composition#democompositiondrawer04",
         status = SketchStatus.GOOD,
+        comment = "Click and drag mouse button to add circles. Right-click to clear composition.",
     ),
     /* COMPOSITOR */
     SketchData(
