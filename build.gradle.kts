@@ -37,19 +37,29 @@ repositories {
 }
 
 kotlin {
-    wasmJs {
-        outputModuleName.set("wasmjsExamples")
+    js {
+        outputModuleName.set("webExamples")
         browser {
             commonWebpackConfig {
                 sourceMaps = true
-                outputFileName = "wasmjsExamples.js"
+                outputFileName = "webExamples.js"
+            }
+        }
+        binaries.executable()
+    }
+    wasmJs {
+        outputModuleName.set("webExamples")
+        browser {
+            commonWebpackConfig {
+                sourceMaps = true
+                outputFileName = "webExamples.js"
             }
         }
         binaries.executable()
     }
 
     sourceSets {
-        wasmJsMain.dependencies {
+        webMain.dependencies {
 
             implementation(libs.openrndr.application)
             implementation(libs.openrndr.dds)

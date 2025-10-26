@@ -1,0 +1,1 @@
+expect fun initUI(sketchJson: String)
