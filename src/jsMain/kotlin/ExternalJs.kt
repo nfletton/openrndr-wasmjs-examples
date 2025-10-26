@@ -5,4 +5,4 @@ import kotlin.js.ExperimentalWasmJsInterop
 import kotlin.js.JsModule
 
 
-actual external fun initUI(sketchJson: String)
+actual external fun initUI(sketchJson: String, target: String)

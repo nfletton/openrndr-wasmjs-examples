@@ -1,4 +1,4 @@
-export function initUI(sketchJson) {
+export function initUI(sketchJson, webTarget) {
     let links;
     let activeLink = null;
     const defaultNavWidth = '240px';
@@ -169,6 +169,25 @@ export function initUI(sketchJson) {
             btnToggle.setAttribute('title', btnToggle.title);
             sessionStorage.setItem('navHidden', navHidden);
         });
+
+        // web target buttons
+        const btnJs = document.getElementById('btnJs');
+        const btnWasm = document.getElementById('btnWasm');
+        if (webTarget === 'js') {
+            btnJs.classList.add('active');
+            btnJs.disabled = true;
+            btnWasm.disabled = false;
+            btnWasm.addEventListener('click', () => {
+                document.location.href = document.location.href.replace("js.", "wasm.");
+            });
+        } else {
+            btnWasm.classList.add('active');
+            btnJs.disabled = false;
+            btnWasm.disabled = true;
+            btnJs.addEventListener('click', () => {
+                document.location.href = document.location.href.replace("wasm.", "js.");
+            });
+        }
 
         const debounce = (fn, wait = 150) => {
             let t;

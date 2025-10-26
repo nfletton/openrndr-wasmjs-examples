@@ -56,7 +56,7 @@ fun runSketch(funcId: String) {
 }
 
 fun main() {
-    initUI(sketchesJson)
+    initUI(sketchesJson, webTarget())
     val activeSketch = sessionStorage.getItem("funcId")
     if (activeSketch != null) runSketch(activeSketch)
 }

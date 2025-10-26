@@ -1,1 +1,1 @@
-expect fun initUI(sketchJson: String)
+expect fun initUI(sketchJson: String, target: String)

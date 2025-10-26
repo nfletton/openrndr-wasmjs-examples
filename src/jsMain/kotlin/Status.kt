@@ -1,0 +1,2 @@
+
+actual fun webTarget() = "js"

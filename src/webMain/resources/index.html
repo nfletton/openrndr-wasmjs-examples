@@ -38,7 +38,12 @@
 </div>
 
 <footer class="statusbar" role="contentinfo" aria-live="polite">
-    <div class="panel" id="comment"></div>
+    <div class="statusbar-target" aria-label="Execution target">
+        <button id="btnWasm" type="button" disabled>WASM</button>
+        <button id="btnJs" type="button" disabled>JS</button>
+    </div>
+
+    <div class="statusbar-comment" id="comment"></div>
 </footer>
 
 <script src="webExamples.js"></script>

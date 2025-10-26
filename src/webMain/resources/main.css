@@ -103,7 +103,7 @@ body {
     color: var(--text);
     background: light-dark(#ffffff, #151922);
 }
-.nav a:hover, .nav a:focus-visible, .nav a.active {
+.nav a:hover, .nav a:focus-visible, .nav a.active, .statusbar-target button.active {
     outline: none;
     border-color: var(--accent);
     box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent), transparent 80%);
@@ -153,7 +153,7 @@ header.topbar {
     display: inline-flex;
     gap: 8px;
 }
-.topbar-actions button, .topbar-info button, .topbar-center button {
+.topbar-actions button, .topbar-info button, .topbar-center button, .statusbar-target button {
     appearance: none;
     border: 1px solid var(--border);
     background: light-dark(#ffffff, #151922);
@@ -164,7 +164,7 @@ header.topbar {
     line-height: 1;
     font-size: 14px;
 }
-.topbar-actions button:hover, .topbar-actions button:focus-visible, .topbar-info button:hover, .topbar-info button:focus-visible, .topbar-center button:hover, .topbar-center button:focus-visible {
+.topbar-actions button:hover, .topbar-actions button:focus-visible, .topbar-info button:hover, .topbar-info button:focus-visible, .topbar-center button:hover, .topbar-center button:focus-visible, .statusbar-target button:hover, .statusbar-target button:focus-visible {
     outline: none;
     border-color: var(--accent);
     box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent), transparent 80%);
@@ -175,6 +175,9 @@ header.topbar {
     box-shadow: none;
 }
 
+.statusbar-target button:disabled {
+    cursor: not-allowed;
+}
 /* Collapsed sidebar state */
 body.nav-collapsed .nav {
     display: none !important;
@@ -196,22 +199,22 @@ body.nav-collapsed .nav :is(h1, .groups) {
 
 /* Status bar */
 .statusbar {
-    display: grid;
-    /* Create one 1fr column per visible panel */
-    grid-auto-flow: column;
-    grid-auto-columns: 1fr;
-    gap: 8px;
+    display: flex;
     align-items: center;
     padding: 6px 12px;
     border-top: 1px solid var(--border);
     background: light-dark(#f8fafc, #0f1116);
     min-height: 34px;
     box-sizing: border-box;
+    justify-content: space-between;
+    gap: 12px;
+
 }
-.statusbar .panel {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+.statusbar-target {
     display: inline-flex;
     gap: 8px;
+}
+.statusbar-comment {
+    width: 100%;
+    text-align: center;
 }
