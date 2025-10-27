@@ -4,6 +4,11 @@ import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
 import web.console.console
+import web.dom.DocumentReadyState
+import web.dom.document
+import web.dom.loading
+import web.events.EventType
+import web.events.addEventListener
 import web.storage.sessionStorage
 
 @Serializable
@@ -58,5 +63,11 @@ fun runSketch(funcId: String) {
 fun main() {
     initUI(sketchesJson, webTarget())
     val activeSketch = sessionStorage.getItem("funcId")
-    if (activeSketch != null) runSketch(activeSketch)
+    val runActive = { activeSketch?.let(::runSketch) }
+
+    if (document.readyState == DocumentReadyState.loading) {
+        document.addEventListener(EventType("DOMContentLoaded"), { runActive() })
+    } else {
+        runActive()
+    }
 }
