@@ -2,7 +2,7 @@
 
 This is a set of examples for the [OPENRNDR](https://openrndr.org/) library using the Kotlin/Wasm & Kotlin/JS targets.
 The examples cover the basics of OPENRNDR by replicating examples from the 
-[OPENRNDR Guide](https:/guide.openrndr.org) and demo programs from 
+[OPENRNDR Guide](https://guide.openrndr.org) and demo programs from 
 [OPENRNDR ORX](https://github.com/openrndr/orx).
 
 Wasm & JS targets are at an early stage of development. Initial results from these examples
