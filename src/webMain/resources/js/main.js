@@ -1,11 +1,24 @@
 export function initUI(sketchJson, webTarget) {
     let links;
     let activeLink = null;
+    let navHidden = 'true';
+    const navVisCookie = 'navHidden';
+    const navWidthCookie = 'navWidth';
     const defaultNavWidth = '240px';
     let navWidth = defaultNavWidth;
-    let navHidden = 'true';
 
     const nav = document.getElementById('sidebar');
+
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return null;
+    }
+
+    function setCookie(name, value) {
+        document.cookie = `${name}=${value}; path=/; SameSite=Lax`;
+    }
 
     function setNavGroupOpenState(targetGroup) {
         const groups = nav.querySelectorAll('nav details.group')
@@ -88,17 +101,17 @@ export function initUI(sketchJson, webTarget) {
     }
 
     function initNavStatus() {
-        const newNavWidth = sessionStorage.getItem('navWidth') ?? defaultNavWidth;
-        const newNavHidden = sessionStorage.getItem('navHidden') ?? 'false';
+        const newNavWidth = getCookie(navWidthCookie) ?? defaultNavWidth;
+        const newNavHidden = getCookie(navVisCookie) ?? 'false';
 
         if (newNavWidth !== navWidth) {
             navWidth = newNavWidth;
-            sessionStorage.setItem('navWidth', navWidth);
+            setCookie(navWidthCookie, navWidth);
         }
 
         if (newNavHidden !== navHidden) {
             navHidden = newNavHidden;
-            sessionStorage.setItem('navHidden', navHidden);
+            setCookie(navVisCookie, navHidden);
         }
         nav.style.width = navWidth;
         nav.setAttribute('aria-hidden', navHidden);
@@ -161,7 +174,7 @@ export function initUI(sketchJson, webTarget) {
             btnToggle.title = (navHidden === 'true') ? 'Expand sidebar' : 'Collapse sidebar';
             btnToggle.setAttribute('aria-label', btnToggle.title);
             btnToggle.setAttribute('title', btnToggle.title);
-            sessionStorage.setItem('navHidden', navHidden);
+            setCookie(navVisCookie, navHidden);
         });
 
         // web target buttons
@@ -195,7 +208,7 @@ export function initUI(sketchJson, webTarget) {
             const width = entry.target.style.width;
             if (width && width !== navWidth) {
                 navWidth = width;
-                sessionStorage.setItem('navWidth', width);
+                setCookie(navWidthCookie, width)
             }
         }, 150);
 
