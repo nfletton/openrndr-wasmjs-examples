@@ -65,6 +65,7 @@ These commands will place the resulting production files into the
 
 ## TODOs / Potentials
 - [ ] Add more demos
+- [ ] Switch back to GitHub pages and use Abe's workflow to get both targets built and deployed automatically.
 - [ ] Fix canvas resizing issue on page load
 - [ ] Add additional status text indicating any known issues with the demo compared to the JVM version
 - [ ] Load first sketch if no `sketch` parameter in URL
