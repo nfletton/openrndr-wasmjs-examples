@@ -62,3 +62,10 @@ Once the project is ready to be shared, one can export a minimized executable by
 
 These commands will place the resulting production files into the
 `./build/dist/<target name>/productionExecutable/` folders.
+
+## TODOs / Potentials
+- [ ] Add more demos
+- [ ] Fix canvas resizing issue on page load
+- [ ] Add additional status text indicating any known issues with the demo compared to the JVM version
+- [ ] Load first sketch if no `sketch` parameter in URL
+- [ ] Link to the original JVM demo code as well as the web version currently linked to.
