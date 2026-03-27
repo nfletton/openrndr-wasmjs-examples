@@ -1,4 +1,4 @@
-rootProject.name = "openrndr-wasmjs-examples"
+rootProject.name = "openrndr-web-demos"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
