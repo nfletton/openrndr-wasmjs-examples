@@ -4,7 +4,6 @@ export function initUI(sketchJson, webTarget) {
     const defaultNavWidth = '240px';
     let navWidth = defaultNavWidth;
     let navHidden = 'true';
-    let sketches = []
 
     const nav = document.getElementById('sidebar');
 
@@ -39,8 +38,9 @@ export function initUI(sketchJson, webTarget) {
         const idx = activeLink ? links.indexOf(activeLink) : -1;
         const targetIdx = (idx + delta) < 0 ? links.length - 1 : (idx + delta) % links.length;
         const nextActiveNavId = links[targetIdx].id;
-        if (nextActiveNavId) activeLink = setActiveNavItem(nextActiveNavId);
-        activeLink.click()
+        const url = new URL(window.location.href);
+        url.searchParams.set('sketch', nextActiveNavId);
+        window.location.href = url.toString();
     }
 
     function initNavLinks(sketchData) {
@@ -68,12 +68,13 @@ export function initUI(sketchJson, webTarget) {
             groupData.forEach((sketch) => {
                 const li = document.createElement('li');
                 const link = document.createElement('a');
-                link.href = '#';
+                const url = new URL(window.location.href);
+                url.searchParams.set('sketch', sketch['funcId']);
+                link.href = url.toString();
                 link.id = sketch['funcId'];
                 link.textContent = sketch['navTitle'];
                 link.dataset.sketchId = String(sketchIndex++);
                 link.className = 'nav-link';
-                sketches.push(sketch);
 
                 li.appendChild(link);
                 ul.appendChild(li);
@@ -81,21 +82,6 @@ export function initUI(sketchJson, webTarget) {
 
             details.appendChild(ul);
             nav.appendChild(details);
-
-            nav.addEventListener('click', (event) => {
-                const clickedLink = event.target.closest('a.nav-link')
-                if (clickedLink) {
-                    const sketch = sketches[Number(clickedLink.dataset.sketchId)]
-                    sessionStorage.setItem('funcId', sketch['funcId']);
-                    sessionStorage.setItem('navWidth', navWidth);
-                    sessionStorage.setItem('navHidden', navHidden);
-                    sessionStorage.setItem('codeLink', sketch['codeLink']);
-                    sessionStorage.setItem('docLink', sketch['docLink']);
-                    sessionStorage.setItem('title', sketch['title']);
-                    sessionStorage.setItem('comment', sketch['comment']);
-                    document.location.reload();
-                }
-            })
         });
 
         return nav;
@@ -144,9 +130,17 @@ export function initUI(sketchJson, webTarget) {
         const btnNext = document.getElementById('navNext');
         const btnToggle = document.getElementById('toggleSidebar');
 
-        const activeNavId = sessionStorage.getItem('funcId');
+        const urlParams = new URLSearchParams(window.location.search);
+        const activeNavId = urlParams.get('sketch');
 
-        if (activeNavId) activeLink = setActiveNavItem(activeNavId);
+        let sketch = null;
+        if (activeNavId) {
+            activeLink = setActiveNavItem(activeNavId);
+            for (const group in sketchData) {
+                sketch = sketchData[group].find(s => s.funcId === activeNavId);
+                if (sketch) break;
+            }
+        }
 
 
         // Header nav buttons
@@ -211,43 +205,35 @@ export function initUI(sketchJson, webTarget) {
 
         resizeObserver.observe(nav);
 
-        const codeLink = sessionStorage.getItem('codeLink');
-        if (codeLink) {
-            const codeButton = document.getElementById('code-btn');
-            if (codeButton) {
-                codeButton.disabled = false;
-                codeButton.addEventListener('click', (event) => {
-                    event.preventDefault();
-                    window.open(codeLink, '_blank');
-                })
-            }
+        const codeButton = document.getElementById('code-btn');
+        if (sketch && sketch.codeLink && codeButton) {
+            codeButton.disabled = false;
+            codeButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                window.open(sketch.codeLink, '_blank');
+            })
         }
 
-        const docLink = sessionStorage.getItem('docLink');
-        if (docLink) {
-            const docButton = document.getElementById('doc-btn');
-            if (docButton) {
-                docButton.disabled = false;
-                docButton.addEventListener('click', (event) => {
-                    event.preventDefault();
-                    window.open(docLink, '_blank');
-                })
-            }
+        const docButton = document.getElementById('doc-btn');
+        if (sketch && sketch.docLink && docButton) {
+            docButton.disabled = false;
+            docButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                window.open(sketch.docLink, '_blank');
+            })
         }
 
-        const title = sessionStorage.getItem('title');
-        if (title) {
+        if (sketch && sketch.title) {
             const titleEl = document.getElementById('title');
             if (titleEl) {
-                titleEl.textContent = title;
+                titleEl.textContent = sketch.title;
             }
         }
 
-        const comment = sessionStorage.getItem('comment');
-        if (comment) {
+        if (sketch && sketch.comment) {
             const commentEl = document.getElementById('comment');
             if (commentEl) {
-                commentEl.textContent = comment;
+                commentEl.textContent = sketch.comment;
             }
         }
     }

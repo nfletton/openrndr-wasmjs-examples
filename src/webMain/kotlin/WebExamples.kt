@@ -9,7 +9,10 @@ import web.dom.document
 import web.dom.loading
 import web.events.EventType
 import web.events.addEventListener
-import web.storage.sessionStorage
+import web.url.URLSearchParams
+import web.window.window
+import kotlin.js.ExperimentalWasmJsInterop
+import kotlin.js.toJsString
 
 @Serializable
 private data class SketchDto(
@@ -60,10 +63,12 @@ fun runSketch(funcId: String) {
     registry[funcId]?.invoke() ?: console.log("No sketch found for id: $funcId")
 }
 
+@OptIn(ExperimentalWasmJsInterop::class)
 fun main() {
     initUI(sketchesJson, webTarget())
-    val activeSketch = sessionStorage.getItem("funcId")
-    val runActive = { activeSketch?.let(::runSketch) }
+    URLSearchParams(window.location.search)
+    val activeSketch = URLSearchParams(window.location.search).get("sketch".toJsString())
+    val runActive = { activeSketch?.let { runSketch(it.toString()) } }
 
     if (document.readyState == DocumentReadyState.loading) {
         document.addEventListener(EventType("DOMContentLoaded"), { runActive() })
